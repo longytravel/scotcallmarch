@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint &amp; Strategic Planning — Q1 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   COLOUR SYSTEM — Edit these to rebrand
+   ═══════════════════════════════════════════ */
+:root {
+  --accent:        #1B65A6;
+  --accent-light:  #E8F0FA;
+  --accent-vivid:  #0D8AFF;
+  --accent-warm:   #FF6B35;
+  --bg:            #F7F5F2;
+  --bg-card:       #FFFFFF;
+  --bg-subtle:     #EDEAE6;
+  --text:          #1A1A1A;
+  --text-secondary:#5A5A5A;
+  --text-light:    #8A8A8A;
+  --border:        #E0DDD8;
+  --success:       #2D9E6F;
+  --warning:       #E8A317;
+  --info:          #5B8DEF;
+  --discovery:     #7A8BA8;
+  --build:         #4A7FA5;
+  --test:          #8A7A6B;
+  --live:          #5A8A6F;
+  --grain-opacity: 0.03;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: var(--grain-opacity);
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE SYSTEM
+   ═══════════════════════════════════════════ */
+.slide {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 80px 56px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0.8s;
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS BAR
+   ═══════════════════════════════════════════ */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-vivid), var(--accent-warm));
+  z-index: 1000;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0 2px 2px 0;
+}
+
+.slide-counter {
+  position: fixed;
+  bottom: 28px;
+  right: 40px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  z-index: 1000;
+  letter-spacing: 0.05em;
+}
+.slide-counter .current { color: var(--accent); font-size: 18px; }
+
+.nav-hint {
+  position: fixed;
+  bottom: 28px;
+  left: 40px;
+  font-size: 12px;
+  color: var(--text-light);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.6;
+}
+.nav-hint kbd {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════ */
+h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.slide-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 3.5vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.slide-subtitle {
+  font-size: clamp(16px, 1.5vw, 22px);
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 700px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.accent-text { color: var(--accent); }
+.warm-text { color: var(--accent-warm); }
+
+/* ═══════════════════════════════════════════
+   ANIMATION SYSTEM — Rich, staggered, impactful
+   ═══════════════════════════════════════════ */
+
+/* Base: everything starts invisible */
+.anim-in {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.slide.active .anim-in {
+  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger children */
+.slide.active .anim-in:nth-child(1)  { animation-delay: 0.08s; }
+.slide.active .anim-in:nth-child(2)  { animation-delay: 0.16s; }
+.slide.active .anim-in:nth-child(3)  { animation-delay: 0.24s; }
+.slide.active .anim-in:nth-child(4)  { animation-delay: 0.32s; }
+.slide.active .anim-in:nth-child(5)  { animation-delay: 0.40s; }
+.slide.active .anim-in:nth-child(6)  { animation-delay: 0.48s; }
+.slide.active .anim-in:nth-child(7)  { animation-delay: 0.56s; }
+.slide.active .anim-in:nth-child(8)  { animation-delay: 0.64s; }
+.slide.active .anim-in:nth-child(9)  { animation-delay: 0.72s; }
+.slide.active .anim-in:nth-child(10) { animation-delay: 0.80s; }
+
+/* Slide from left variant */
+.anim-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+.slide.active .anim-left {
+  animation: revealLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scale up variant */
+.anim-scale {
+  opacity: 0;
+  transform: scale(0.92);
+}
+.slide.active .anim-scale {
+  animation: revealScale 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Blur in variant */
+.anim-blur {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+}
+.slide.active .anim-blur {
+  animation: revealBlur 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes revealBlur {
+  from { opacity: 0; filter: blur(8px); transform: translateY(12px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+@keyframes drawWidth {
+  from { width: 0%; }
+  to   { width: var(--bar-width, 100%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(27,101,166,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(27,101,166,0); }
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -20px); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px) scale(0.8); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 1 — TITLE
+   ═══════════════════════════════════════════ */
+.title-slide {
+  position: relative;
+  text-align: center;
+}
+
+.title-slide::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+  opacity: 0.6;
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.title-slide::after {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
+  animation: floatOrb 10s ease-in-out infinite reverse;
+}
+
+.title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+}
+
+.title-main {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 5.5vw, 78px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.title-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+.slide.active .title-divider {
+  animation: drawWidth 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  --bar-width: 80px;
+  width: 0;
+}
+
+.title-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: clamp(20px, 2.2vw, 32px);
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.title-desc {
+  font-size: clamp(16px, 1.5vw, 22px);
+  color: var(--text-secondary);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.title-date {
+  margin-top: 36px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-light);
+  letter-spacing: 0.08em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 2 — WHY 2026 IS DIFFERENT
+   ═══════════════════════════════════════════ */
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 1000px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.diff-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.diff-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+
+.diff-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 4px;
+}
+
+.diff-card:nth-child(2)::before { background: var(--accent); }
+.diff-card:nth-child(3)::before { background: var(--accent-warm); }
+.diff-card:nth-child(4)::before { background: var(--success); }
+.diff-card:nth-child(5)::before { background: var(--info); }
+.diff-card:nth-child(6)::before { background: var(--warning); }
+
+.diff-card .diff-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 36px;
+  color: var(--bg-subtle);
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  line-height: 1;
+}
+
+.diff-card .diff-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.diff-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.diff-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.diff-card.full-width {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.diff-card.full-width h3 { color: white; font-size: 17px; }
+.diff-card.full-width p { color: rgba(255,255,255,0.85); font-size: 13px; }
+.diff-card.full-width .diff-icon { font-size: 30px; margin-bottom: 0; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   SLIDE 3 — HOW WE WORK NOW
+   ═══════════════════════════════════════════ */
+.ways-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.way-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.way-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.way-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 16px;
+}
+
+.way-card:nth-child(2) .way-icon { background: var(--accent-light); }
+.way-card:nth-child(3) .way-icon { background: #FFF0E6; }
+.way-card:nth-child(4) .way-icon { background: #E6FFF0; }
+.way-card:nth-child(5) .way-icon { background: #F0E6FF; }
+
+.way-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.way-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════
+   SLIDE 4 — PIPELINE ROADMAP
+   ═══════════════════════════════════════════ */
+.pipeline-slide {
+  padding: 48px 80px 56px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pipeline-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Phase headers row */
+.pipeline-phases {
+  display: grid;
+  grid-template-columns: 260px repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 6px;
+  padding-left: 0;
+}
+
+.phase-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 8px 16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+
+.phase-label.ph-disc  { color: var(--discovery); background: rgba(122,139,168,0.1); }
+.phase-label.ph-build { color: var(--build);     background: rgba(74,127,165,0.1); }
+.phase-label.ph-test  { color: var(--test);       background: rgba(138,122,107,0.1); }
+.phase-label.ph-live  { color: var(--live);       background: rgba(90,138,111,0.1); }
+
+.phase-spacer { }
+
+/* Pipeline rows */
+.pipeline-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  align-items: center;
+  margin-bottom: 16px;
+  min-height: 80px;
+}
+
+.pipeline-label {
+  padding-right: 24px;
+}
+
+.pipeline-label h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.pipeline-label .pipe-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.pipeline-label .pipe-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.pipe-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pipe-tag-person { background: var(--accent-light); color: var(--accent); }
+.pipe-tag-new    { background: var(--accent-light); color: var(--accent); }
+
+/* The bar track */
+.pipeline-track {
+  position: relative;
+  height: 52px;
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Grid lines for phase boundaries */
+.pipeline-track::before,
+.pipeline-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+  z-index: 1;
+}
+.pipeline-track::before { left: 25%; }
+.pipeline-track::after  { left: 50%; }
+
+.pipeline-track .grid-line-3 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 75%;
+  width: 1px;
+  background: var(--border);
+  z-index: 1;
+}
+
+/* The filled bar */
+.pipeline-bar {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  border-radius: 9px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  /* animated fill */
+  width: 0;
+  transition: none;
+}
+
+.slide.active .pipeline-bar {
+  animation: barGrow 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide.active .pipeline-row:nth-child(2) .pipeline-bar { animation-delay: 0.15s; }
+.slide.active .pipeline-row:nth-child(3) .pipeline-bar { animation-delay: 0.30s; }
+.slide.active .pipeline-row:nth-child(4) .pipeline-bar { animation-delay: 0.45s; }
+.slide.active .pipeline-row:nth-child(5) .pipeline-bar { animation-delay: 0.60s; }
+.slide.active .pipeline-row:nth-child(6) .pipeline-bar { animation-delay: 0.75s; }
+
+@keyframes barGrow {
+  from { width: 0%; opacity: 0.6; }
+  to   { width: var(--bar-pct); opacity: 1; }
+}
+
+/* Bar shimmer effect */
+.pipeline-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Colour variants — muted, professional */
+.bar-discovery     { background: var(--discovery); }
+.bar-build         { background: var(--build); }
+.bar-test          { background: var(--test); }
+.bar-live          { background: var(--live); }
+.bar-disc-build    { background: linear-gradient(90deg, var(--discovery), var(--build)); }
+.bar-build-test    { background: linear-gradient(90deg, var(--build), var(--test)); }
+.bar-live-warranty { background: var(--live); }
+.bar-test-live     { background: linear-gradient(90deg, var(--test), var(--live)); }
+.bar-new           { background: var(--accent); }
+
+/* Status dot on bar end */
+.bar-status {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid currentColor;
+  z-index: 3;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 5 — FLAGSHIP
+   ═══════════════════════════════════════════ */
+.flagship-slide {
+  padding: 50px 80px;
+}
+
+.flagship-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center;
+}
+
+.flagship-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  margin-bottom: 16px;
+}
+
+.flagship-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent-warm);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.flagship-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.flagship-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.flagship-thanks {
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.flagship-thanks strong { color: var(--text); }
+
+.flagship-screenshot {
+  aspect-ratio: 16/10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .slide { padding: 40px 30px; }
+  .diff-grid { grid-template-columns: 1fr; }
+  .ways-grid { grid-template-columns: repeat(2, 1fr); }
+  .flagship-layout { grid-template-columns: 1fr; }
+  .pipeline-slide { padding: 40px 30px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Slide counter -->
+<div class="slide-counter" id="slideCounter">
+  <span class="current">01</span> / 05
+</div>
+
+<!-- Nav hint -->
+<div class="nav-hint">
+  <kbd>SPACE</kbd> or <kbd>&rarr;</kbd> to advance &nbsp;&middot;&nbsp; <kbd>&larr;</kbd> to go back
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ═══════════════════════════════════════════ -->
+<div class="slide title-slide active" data-slide="1">
+  <div class="anim-in title-badge">Q1 2026 Update</div>
+  <h1 class="anim-in title-main">Blueprint &amp;<br>Strategic Planning</h1>
+  <div class="anim-in title-divider"></div>
+  <div class="anim-in title-tagline">Driving Clarity. Powering Decisions.</div>
+  <p class="anim-in title-desc">
+    One team connecting the bigger picture &mdash; supporting demand and supply with coherent planning, better tools, and joined-up insight.
+  </p>
+  <div class="anim-in title-date">March 2026</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 2 — WHY 2026 IS DIFFERENT
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="2">
+  <div class="anim-in slide-title">Why <span class="accent-text">2026</span> will be different</div>
+  <div class="anim-in slide-subtitle" style="margin-bottom:8px;">Five changes that will transform how we deliver.</div>
+  <div class="diff-grid">
+    <div class="diff-card full-width anim-in">
+      <div class="diff-icon">&#9888;&#65039;</div>
+      <div>
+        <h3>We're changing how we work, not just what we build</h3>
+        <p>Every point below is already in action &mdash; this isn't a future promise, it's happening now.</p>
+      </div>
+    </div>
+    <div class="diff-card anim-in">
+      <div class="diff-num">01</div>
+      <div class="diff-icon">&#128203;</div>
+      <h3>Better Requirements</h3>
+      <p>Collecting robust requirements up front so we have <strong>less rework</strong> and build the right thing first time.</p>
+    </div>
+    <div class="diff-card anim-in">
+      <div class="diff-num">02</div>
+      <div class="diff-icon">&#128300;</div>
+      <h3>More Testing</h3>
+      <p>Terrie is driving structured test plans and evidence &mdash; every release is tested before it reaches you.</p>
+    </div>
+    <div class="diff-card anim-in">
+      <div class="diff-num">03</div>
+      <div class="diff-icon">&#128483;&#65039;</div>
+      <h3>Change Forum</h3>
+      <p>A monthly forum to collect, prioritise and track your enhancement requests &mdash; so the right work gets done.</p>
+    </div>
+    <div class="diff-card anim-in">
+      <div class="diff-num">04</div>
+      <div class="diff-icon">&#128736;&#65039;</div>
+      <h3>More Prototypes</h3>
+      <p>You'll get to <strong>touch and feel</strong> things before we build them &mdash; more demos, more walkthroughs, more input.</p>
+    </div>
+    <div class="diff-card anim-in">
+      <div class="diff-num">05</div>
+      <div class="diff-icon">&#128421;&#65039;</div>
+      <h3>Test Rig</h3>
+      <p>A dedicated environment so you can test tools yourselves &mdash; on your terms, with real data.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 3 — HOW WE WORK NOW
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="3">
+  <div class="anim-in slide-title">How we work now</div>
+  <div class="anim-in slide-subtitle">The machine behind every delivery.</div>
+  <div class="ways-grid">
+    <div class="way-card anim-in">
+      <div class="way-icon">&#129309;</div>
+      <h3>Paired Working</h3>
+      <p>Lead + Second on every initiative. Faster delivery, better quality, no single-person risk.</p>
+    </div>
+    <div class="way-card anim-in">
+      <div class="way-icon">&#128203;</div>
+      <h3>Kanban Board</h3>
+      <p>Single source of truth for all work &mdash; bugs, enhancements, tasks. Visible to everyone.</p>
+    </div>
+    <div class="way-card anim-in">
+      <div class="way-icon">&#128737;&#65039;</div>
+      <h3>Warranty Period</h3>
+      <p>30-day post-deployment support. Issues take priority. Clear handover to BAU after.</p>
+    </div>
+    <div class="way-card anim-in">
+      <div class="way-icon">&#128220;</div>
+      <h3>Definition of Done</h3>
+      <p>10-point checklist: requirements, testing, sign-off, training, NPS &mdash; nothing ships without it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 4 — PIPELINE ROADMAP
+     ═══════════════════════════════════════════ -->
+<div class="slide pipeline-slide" data-slide="4">
+  <div class="pipeline-container">
+    <div class="anim-in slide-title" style="margin-bottom:4px;text-align:center;width:100%;">Q1 2026 <span class="accent-text">Roadmap</span></div>
+    <div class="anim-in slide-subtitle" style="margin-bottom:20px;font-size:15px;text-align:center;width:100%;">Where every initiative stands right now.</div>
+
+    <!-- Phase column headers -->
+    <div class="pipeline-phases anim-in">
+      <div class="phase-spacer"></div>
+      <div class="phase-label ph-disc">Discovery</div>
+      <div class="phase-label ph-build">Build</div>
+      <div class="phase-label ph-test">Test</div>
+      <div class="phase-label ph-live">Live</div>
+    </div>
+
+    <!-- Row 1: Short-Term Outlooks — in Test -->
+    <div class="pipeline-row anim-in">
+      <div class="pipeline-label">
+        <h4>Short-Term Outlooks</h4>
+        <div class="pipe-sub">All 4 areas actively testing</div>
+        <div class="pipe-tags">
+          <span class="pipe-tag pipe-tag-person">Mark / John / Ian</span>
+        </div>
+      </div>
+      <div class="pipeline-track">
+        <div class="pipeline-track" style="position:relative;">
+          <div style="position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:75%;width:1px;background:var(--border);z-index:1;"></div>
+          <div class="pipeline-bar bar-build-test" style="left:0%;--bar-pct:68%;">
+            <span>In Testing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Strategic Demand (Fraud GUI) — in Build -->
+    <div class="pipeline-row anim-in">
+      <div class="pipeline-label">
+        <h4>Fraud GUI</h4>
+        <div class="pipe-sub">Strategic Demand &mdash; GUI deployment target end Q1</div>
+        <div class="pipe-tags">
+          <span class="pipe-tag pipe-tag-person">Ian (Lead) / John (2nd)</span>
+        </div>
+      </div>
+      <div class="pipeline-track">
+        <div class="pipeline-track" style="position:relative;">
+          <div style="position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:75%;width:1px;background:var(--border);z-index:1;"></div>
+          <div class="pipeline-bar bar-build" style="left:0%;--bar-pct:42%;">
+            <span>In Build</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Strategic Supply — Discovery + Build started -->
+    <div class="pipeline-row anim-in">
+      <div class="pipeline-label">
+        <h4>Strategic Supply</h4>
+        <div class="pipe-sub">Sheffield workshop &rarr; requirements &rarr; build started</div>
+        <div class="pipe-tags">
+          <span class="pipe-tag pipe-tag-person">Chris (Lead) / Simon (2nd)</span>
+        </div>
+      </div>
+      <div class="pipeline-track">
+        <div class="pipeline-track" style="position:relative;">
+          <div style="position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:75%;width:1px;background:var(--border);z-index:1;"></div>
+          <div class="pipeline-bar bar-disc-build" style="left:0%;--bar-pct:35%;">
+            <span>Discovery &rarr; Build</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Complaints Allocation — Live / Warranty -->
+    <div class="pipeline-row anim-in">
+      <div class="pipeline-label">
+        <h4>Complaints Allocation</h4>
+        <div class="pipe-sub">Legacy tech replaced &mdash; now in warranty</div>
+        <div class="pipe-tags">
+          <span class="pipe-tag pipe-tag-person">Simon (Lead)</span>
+        </div>
+      </div>
+      <div class="pipeline-track">
+        <div class="pipeline-track" style="position:relative;">
+          <div style="position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:75%;width:1px;background:var(--border);z-index:1;"></div>
+          <div class="pipeline-bar bar-live-warranty" style="left:0%;--bar-pct:92%;">
+            <span>Live &mdash; Warranty Period</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 5: Intra-Month Shapes — New ML -->
+    <div class="pipeline-row anim-in">
+      <div class="pipeline-label">
+        <h4>Intra-Month Shapes</h4>
+        <div class="pipe-sub">New ML technology &mdash; testing in some areas, live in others</div>
+        <div class="pipe-tags">
+          <span class="pipe-tag pipe-tag-person">Mark</span>
+          <span class="pipe-tag pipe-tag-new">ML</span>
+        </div>
+      </div>
+      <div class="pipeline-track">
+        <div class="pipeline-track" style="position:relative;">
+          <div style="position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);z-index:1;"></div>
+          <div style="position:absolute;top:0;bottom:0;left:75%;width:1px;background:var(--border);z-index:1;"></div>
+          <div class="pipeline-bar bar-test-live" style="left:50%;--bar-pct:45%;">
+            <span>Testing / Live</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 5 — FLAGSHIP
+     ═══════════════════════════════════════════ -->
+<div class="slide flagship-slide" data-slide="5">
+  <div class="flagship-layout">
+    <div class="flagship-content">
+      <div class="anim-in flagship-label">Flagship Delivery</div>
+      <h2 class="anim-in flagship-title">Short-Term<br><span class="accent-text">Outlooks</span></h2>
+      <p class="anim-in flagship-desc">
+        A web-based interface that brings together everything we've been working towards. All four areas are <strong>actively testing</strong> the new technology right now.
+      </p>
+      <p class="anim-in flagship-desc" style="margin-bottom:24px;">
+        This is where better requirements, more testing, prototypes, and the test rig all come together.
+      </p>
+      <div class="anim-in flagship-thanks">
+        <strong>Thank you</strong> to <strong>Mark</strong>, <strong>John</strong> and <strong>Ian</strong> for building this, and to <strong>Terrie</strong> for driving the testing.
+      </div>
+    </div>
+    <div class="anim-scale flagship-screenshot" style="border:none;background:transparent;padding:0;animation-delay:0.4s;">
+      <img src="PXL_20260304_132106175~2.jpg" alt="Short-Term Outlooks Tool" style="width:100%;height:100%;object-fit:cover;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const progressBar = document.getElementById('progressBar');
+  const slideCounter = document.getElementById('slideCounter');
+  const totalSlides = slides.length;
+  let currentSlide = 1;
+
+  function goToSlide(n) {
+    if (n < 1 || n > totalSlides) return;
+
+    // Remove active from all
+    slides.forEach(s => s.classList.remove('active'));
+    currentSlide = n;
+
+    const target = document.querySelector(`[data-slide="${n}"]`);
+
+    // Reset ALL animation classes before activating
+    const allAnims = target.querySelectorAll('.anim-in, .anim-left, .anim-scale, .anim-blur');
+    allAnims.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // force reflow
+      el.style.animation = '';
+    });
+
+    // Reset pipeline bars
+    const bars = target.querySelectorAll('.pipeline-bar');
+    bars.forEach(bar => {
+      bar.style.animation = 'none';
+      bar.offsetHeight;
+      bar.style.animation = '';
+    });
+
+    // Reset title divider
+    const divider = target.querySelector('.title-divider');
+    if (divider) {
+      divider.style.animation = 'none';
+      divider.offsetHeight;
+      divider.style.animation = '';
+    }
+
+    target.classList.add('active');
+
+    // Update progress bar
+    const pct = ((n) / totalSlides) * 100;
+    progressBar.style.width = pct + '%';
+
+    // Update counter
+    slideCounter.innerHTML = `<span class="current">${String(n).padStart(2, '0')}</span> / ${String(totalSlides).padStart(2, '0')}`;
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'ArrowDown') {
+      e.preventDefault();
+      nextSlide();
+    } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
+      e.preventDefault();
+      prevSlide();
+    } else if (e.code === 'Home') {
+      e.preventDefault();
+      goToSlide(1);
+    } else if (e.code === 'End') {
+      e.preventDefault();
+      goToSlide(totalSlides);
+    }
+  });
+
+  // Click to advance (left third = back, rest = forward)
+  document.addEventListener('click', function(e) {
+    if (e.clientX < window.innerWidth / 3) {
+      prevSlide();
+    } else {
+      nextSlide();
+    }
+  });
+
+  // Initialize
+  goToSlide(1);
+})();
+</script>
+</body>
+</html>
