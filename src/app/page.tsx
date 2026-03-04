@@ -169,7 +169,7 @@ const insightItems: ListItem[] = [
   { index: '01', title: 'Consolidated View', desc: 'All Scots areas in one view — direct to Consumer Channel leadership.' },
   { index: '02', title: 'Daily Run Rates', desc: 'Fully automated. No manual effort.' },
   { index: '03', title: 'Bereavement Contact Rates', desc: 'Automated end-to-end. Consistent and reliable.' },
-  { index: '04', title: 'Benefits Tracking', desc: '80% now tracked through Blueprint.' },
+  { index: '04', title: 'Benefits Tracking', desc: '95% now tracked through Blueprint.' },
   { index: '05', title: 'Steering Reimagined', desc: 'Chart-led. Less noise, better decisions.' },
 ];
 
