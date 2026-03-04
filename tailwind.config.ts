@@ -6,8 +6,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["'Space Grotesk'", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
-        display: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-space)", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
+        display: ["var(--font-plus)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       keyframes: {
         "fade-up": {

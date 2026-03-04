@@ -1,33 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import {
-  ClipboardList,
-  Microscope,
-  MessageSquare,
-  Blocks,
-  Monitor,
-  Users,
-  Kanban,
-  ShieldCheck,
-  ListChecks,
-  CalendarCheck,
-  Lock,
-  UserCheck,
-  TrendingUp,
-  BarChart3,
-  Cog,
-  FileText,
-  LineChart,
-  Target,
-  Sparkles,
-  Zap,
-  ArrowRight,
-} from 'lucide-react';
-
-import { Spotlight } from '@/components/ui/spotlight';
 
 const SplineScene = dynamic(
   () =>
@@ -39,122 +14,196 @@ const SplineScene = dynamic(
 
 const ROBOT_SCENE_URL =
   'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode';
-
 const TOTAL = 8;
 
-/* ─── Slide wrapper ─── */
-function Slide({
-  active,
-  children,
-  className = '',
-}: {
-  active: boolean;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`fixed inset-0 flex flex-col items-center justify-center px-8 md:px-16 lg:px-20 py-12
-        transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
-        ${active ? 'opacity-100 translate-y-0 z-10' : 'opacity-0 translate-y-6 pointer-events-none z-0'}
-        ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+type ListItem = {
+  title: string;
+  desc: string;
+  index: string;
+};
 
-/* ─── Staggered reveal ─── */
-function Anim({
-  children,
-  d = 0,
-  active,
-  className = '',
-}: {
-  children: ReactNode;
-  d?: number;
-  active: boolean;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
-        ${active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
-        ${className}`}
-      style={{ transitionDelay: active ? `${d}ms` : '0ms' }}
-    >
-      {children}
-    </div>
-  );
-}
-
-/* ─── Glass card ─── */
-function Glass({
-  children,
-  className = '',
-  accentColor,
-}: {
-  children: ReactNode;
-  className?: string;
-  accentColor?: string;
-}) {
-  return (
-    <div
-      className={`relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl p-5 overflow-hidden
-        transition-all duration-300 hover:bg-white/[0.07] hover:border-white/[0.15]
-        hover:shadow-lg hover:shadow-blue-500/[0.04] hover:-translate-y-1 ${className}`}
-    >
-      {accentColor && (
-        <div
-          className="absolute top-0 left-0 w-full h-[3px]"
-          style={{ background: accentColor }}
-        />
-      )}
-      {children}
-    </div>
-  );
-}
-
-/* ─── Pipeline bar ─── */
-function PipelineBar({
-  left,
-  width,
-  label,
-  color,
-  delay,
-  active,
-}: {
+type RoadmapItem = {
+  title: string;
+  sub: string;
+  tags: string[];
   left: string;
   width: string;
   label: string;
   color: string;
-  delay: number;
+};
+
+function Slide({
+  active,
+  className = '',
+  children,
+}: {
   active: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <section
+      className={`fixed inset-0 z-10 flex items-center justify-center px-8 py-20 md:px-16 lg:px-20 transition-all duration-700 ease-out ${
+        active
+          ? 'opacity-100 translate-y-0'
+          : 'pointer-events-none opacity-0 translate-y-5'
+      } ${className}`}
+    >
+      {children}
+    </section>
+  );
+}
+
+function Reveal({
+  active,
+  delay = 0,
+  className = '',
+  children,
+}: {
+  active: boolean;
+  delay?: number;
+  className?: string;
+  children: ReactNode;
 }) {
   return (
     <div
-      className="absolute top-1 bottom-1 rounded-lg flex items-center px-4 font-semibold text-xs text-white tracking-wide overflow-hidden bar-shimmer transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
-      style={{
-        left,
-        width: active ? width : '0%',
-        background: color,
-        transitionDelay: active ? `${delay}ms` : '0ms',
-        opacity: active ? 1 : 0,
-      }}
+      className={`transition-all duration-700 ease-out ${
+        active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      } ${className}`}
+      style={{ transitionDelay: active ? `${delay}ms` : '0ms' }}
     >
-      <span className="whitespace-nowrap">{label}</span>
+      {children}
     </div>
   );
 }
 
-/* ════════════════════════════════════════
-   MAIN PRESENTATION
-   ════════════════════════════════════════ */
-export default function Presentation() {
-  const [s, setS] = useState(1);
+function ListLine({
+  active,
+  delay,
+  title,
+  desc,
+  index,
+}: ListItem & { active: boolean; delay: number }) {
+  return (
+    <Reveal active={active} delay={delay}>
+      <div className="grid grid-cols-[32px_1fr] items-start gap-5 border-b border-white/[0.06] py-4">
+        <span className="pt-0.5 font-sans text-[11px] tracking-[0.2em] text-white/25">
+          {index}
+        </span>
+        <div>
+          <h4 className="font-sans text-sm font-medium tracking-wide text-white/85">
+            {title}
+          </h4>
+          <p className="mt-1 font-sans text-[13px] tracking-wide text-white/40">
+            {desc}
+          </p>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
 
-  const next = useCallback(() => setS((c) => Math.min(c + 1, TOTAL)), []);
-  const prev = useCallback(() => setS((c) => Math.max(c - 1, 1)), []);
+function RoadmapLine({
+  active,
+  delay,
+  row,
+}: {
+  active: boolean;
+  delay: number;
+  row: RoadmapItem;
+}) {
+  return (
+    <Reveal active={active} delay={delay}>
+      <div className="grid grid-cols-1 gap-4 border-b border-white/[0.06] py-4 md:grid-cols-[240px_1fr]">
+        <div className="space-y-1.5">
+          <h4 className="font-sans text-sm font-medium tracking-wide text-white/85">
+            {row.title}
+          </h4>
+          <p className="font-sans text-[13px] tracking-wide text-white/40">
+            {row.sub}
+          </p>
+          <p className="font-sans text-[11px] tracking-wider text-white/20">
+            {row.tags.join(' / ')}
+          </p>
+        </div>
+
+        <div className="relative h-8 overflow-hidden rounded bg-white/[0.03]">
+          <div className="absolute inset-y-0 left-1/4 w-px bg-white/[0.06]" />
+          <div className="absolute inset-y-0 left-1/2 w-px bg-white/[0.06]" />
+          <div className="absolute inset-y-0 left-3/4 w-px bg-white/[0.06]" />
+          <div
+            className="absolute inset-y-0 rounded px-3 pt-2 font-sans text-[10px] font-medium tracking-[0.14em] text-white/90 transition-all duration-1000 ease-out"
+            style={{
+              left: row.left,
+              width: active ? row.width : '0%',
+              backgroundColor: row.color,
+              opacity: active ? 0.8 : 0,
+              transitionDelay: active ? `${delay + 260}ms` : '0ms',
+            }}
+          >
+            <span className="whitespace-nowrap">{row.label}</span>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+const whyItems: ListItem[] = [
+  { index: '01', title: 'Better Requirements', desc: 'Right first time. Less rework.' },
+  { index: '02', title: 'Structured Testing', desc: 'Every release tested before it reaches you.' },
+  { index: '03', title: 'Change Forum', desc: 'Prioritise enhancements. Right work gets done.' },
+  { index: '04', title: 'More Prototypes', desc: 'Touch and feel before we build.' },
+  { index: '05', title: 'Test Rig', desc: 'Test it yourselves. Real data, your terms.' },
+];
+
+const deliveryItems: ListItem[] = [
+  { index: '01', title: '2x Paired Working', desc: 'Lead + Second on every initiative. No single point of failure.' },
+  { index: '02', title: '1 Kanban Board', desc: 'Single source of truth. All work visible to everyone.' },
+  { index: '03', title: '30d Warranty Period', desc: 'Post-deployment support. Issues take priority.' },
+  { index: '04', title: '10 Point Definition of Done', desc: 'Point checklist. Nothing ships without it.' },
+];
+
+const q2fItems: ListItem[] = [
+  { index: '01', title: 'Timelines Done', desc: 'All three areas. No slippage.' },
+  { index: '02', title: 'Demand Locked', desc: 'On time. No last-minute scramble.' },
+  { index: '03', title: 'Directors Booked', desc: 'All meetings in the diary. Storyboarding underway.' },
+  { index: '04', title: 'Benefits - Turning the Dial', desc: 'Home and CG building foundations. Starting to see traction.' },
+];
+
+const insightItems: ListItem[] = [
+  { index: '01', title: 'Consolidated View', desc: 'All Scots areas in one view - direct to Consumer Channel leadership.' },
+  { index: '02', title: 'Daily Run Rates', desc: 'Fully automated. Manual effort eliminated.' },
+  { index: '03', title: 'Bereavement Contact Rates', desc: 'Fully automated. Consistent and reliable.' },
+  { index: '04', title: 'Benefits Tracking', desc: '80% on Blueprint.' },
+  { index: '05', title: 'Steering Reimagined', desc: 'Chart-led. Simplified. Less noise, better decisions.' },
+];
+
+const roadmapRows: RoadmapItem[] = [
+  { title: 'Short-Term Outlooks', sub: 'All 4 areas actively testing', tags: ['Mark', 'John', 'Ian'], left: '0%', width: '68%', label: 'In Testing', color: '#8A7A6B' },
+  { title: 'Fraud GUI', sub: 'Target: live end Q1', tags: ['Ian (Lead)', 'John (2nd)'], left: '0%', width: '42%', label: 'In Build', color: '#4A7FA5' },
+  { title: 'Strategic Supply', sub: 'Workshop -> requirements -> build', tags: ['Chris (Lead)', 'Simon (2nd)'], left: '0%', width: '35%', label: 'Discovery -> Build', color: '#7A8BA8' },
+  { title: 'Complaints Allocation', sub: 'Legacy tech replaced', tags: ['Simon (Lead)'], left: '0%', width: '92%', label: 'Live - Warranty', color: '#5A8A6F' },
+  { title: 'Intra-Month Shapes', sub: 'ML - testing and live', tags: ['Mark', 'ML'], left: '50%', width: '45%', label: 'Testing / Live', color: '#8A7A6B' },
+];
+
+/* ── Two font classes only ──
+   font-sans = Space Grotesk (headings + labels + list text)
+   font-display = Plus Jakarta Sans (body paragraphs)
+*/
+const heading =
+  'font-sans text-5xl font-extralight uppercase leading-[0.92] tracking-[0.08em] md:text-7xl lg:text-[8.5rem]';
+const subheading =
+  'font-sans text-4xl font-extralight uppercase leading-[0.92] tracking-[0.08em] md:text-6xl lg:text-[6.5rem]';
+const label =
+  'font-sans text-[11px] uppercase tracking-[0.25em] text-white/30';
+const body = 'font-display text-sm tracking-wide text-white/50 md:text-base';
+
+export default function Presentation() {
+  const [slide, setSlide] = useState(1);
+
+  const next = useCallback(() => setSlide((v) => Math.min(v + 1, TOTAL)), []);
+  const prev = useCallback(() => setSlide((v) => Math.max(v - 1, 1)), []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -166,579 +215,387 @@ export default function Presentation() {
         prev();
       } else if (e.code === 'Home') {
         e.preventDefault();
-        setS(1);
+        setSlide(1);
       } else if (e.code === 'End') {
         e.preventDefault();
-        setS(TOTAL);
+        setSlide(TOTAL);
       }
     };
+
     const onClick = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      if (t.closest('a, button')) return;
-      e.clientX < window.innerWidth / 3 ? prev() : next();
+      const target = e.target as HTMLElement;
+      if (target.closest('a,button,input,textarea')) return;
+      if (e.clientX < window.innerWidth * 0.3) {
+        prev();
+      } else {
+        next();
+      }
     };
+
     document.addEventListener('keydown', onKey);
     document.addEventListener('click', onClick);
+
     return () => {
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('click', onClick);
     };
   }, [next, prev]);
 
-  const colors = {
-    blue: '#3b82f6',
-    cyan: '#22d3ee',
-    orange: '#f97316',
-    green: '#22c55e',
-    purple: '#8b5cf6',
-    amber: '#f59e0b',
-    rose: '#f43f5e',
-    discovery: '#7A8BA8',
-    build: '#4A7FA5',
-    test: '#8A7A6B',
-    live: '#5A8A6F',
-  };
-
   return (
-    <main className="w-screen h-screen overflow-hidden bg-[#06060f] text-white relative select-none">
-      {/* ── Dot grid background ── */}
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle,_white_1px,_transparent_1px)] opacity-[0.07] [background-size:20px_20px] pointer-events-none" />
+    <main className="relative h-screen w-screen overflow-hidden bg-[#060608] text-white">
+      {/* Dot grid */}
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.25)_1px,_transparent_1px)] [background-size:20px_20px] opacity-[0.07]" />
 
-      {/* ── Progress bar ── */}
+      {/* Progress bar */}
       <div
-        className="fixed top-0 left-0 h-[3px] z-50 transition-all duration-600 ease-out"
-        style={{
-          width: `${(s / TOTAL) * 100}%`,
-          background: colors.blue,
-        }}
+        className="fixed left-0 top-0 z-50 h-px bg-white/40 transition-all duration-500 ease-out"
+        style={{ width: `${(slide / TOTAL) * 100}%` }}
       />
 
-      {/* ── Slide counter ── */}
-      <div className="fixed bottom-6 right-8 z-50 font-mono text-sm text-white/30 tracking-wider">
-        <span className="text-blue-400 text-lg font-bold">
-          {String(s).padStart(2, '0')}
+      {/* Nav - top right only, like the reference */}
+      <nav className="fixed right-8 top-7 z-40 hidden gap-8 font-sans text-[11px] tracking-[0.18em] text-white/30 md:flex md:right-12">
+        <span className="text-white/70">Index</span>
+        <span>About</span>
+        <span>Work</span>
+      </nav>
+
+      {/* Slide counter - bottom right */}
+      <div className="fixed bottom-7 right-8 z-50 font-sans text-sm tracking-[0.15em] text-white/20 md:right-12">
+        <span className="text-base font-medium text-white/50">
+          {String(slide).padStart(2, '0')}
         </span>
-        <span className="mx-1 text-white/20">/</span>
+        <span className="mx-1.5 text-white/12">/</span>
         <span>{String(TOTAL).padStart(2, '0')}</span>
       </div>
 
-      {/* ── Nav hint ── */}
-      <div className="fixed bottom-6 left-8 z-50 text-[11px] text-white/20 flex items-center gap-2">
-        <kbd className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono">
-          SPACE
-        </kbd>
-        <span>or</span>
-        <kbd className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono">
-          &rarr;
-        </kbd>
-        <span>to advance</span>
+      {/* Side label */}
+      <div className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 bg-white/[0.04] px-2.5 py-5 md:block">
+        <span className="font-sans text-[10px] font-medium uppercase tracking-[0.18em] text-white/25 [writing-mode:vertical-rl]">
+          Team Call - March 2026
+        </span>
       </div>
 
-      {/* ════════════════════════════════════════
-          SLIDE 1 — TITLE (3D Robot)
-         ════════════════════════════════════════ */}
-      <Slide active={s === 1} className="!p-0">
-        <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="white"
-        />
+      {/* ─── SLIDE 1: Title ─── */}
+      <Slide active={slide === 1} className="!p-0">
+        <div className="grid h-full w-full grid-cols-1 gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="z-10 flex flex-col justify-center px-8 pb-24 pt-28 md:px-16">
+            <Reveal active={slide === 1} delay={0}>
+              <p className={label}>Q1 2026 Update</p>
+            </Reveal>
 
-        <div className="flex h-full w-full">
-          {/* Left content */}
-          <div className="flex-1 p-8 md:p-16 relative z-10 flex flex-col justify-center">
-            <Anim active={s === 1} d={0}>
-              <span className="inline-flex items-center gap-2 px-5 py-2 bg-blue-500/15 backdrop-blur-sm border border-blue-400/25 rounded-full text-blue-300 text-xs font-bold tracking-[0.2em] uppercase mb-8">
-                <Sparkles className="w-3.5 h-3.5" />
-                Q1 2026 Update
-              </span>
-            </Anim>
-
-            <Anim active={s === 1} d={120}>
-              <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] mb-6">
-                Blueprint &
-                <br />
-                <span className="text-blue-400">
-                  Strategic Planning
-                </span>
+            <Reveal active={slide === 1} delay={120} className="mt-8">
+              <h1 className={heading}>
+                <span className="text-sky-400">Blueprint</span>
               </h1>
-            </Anim>
+            </Reveal>
 
-            <Anim active={s === 1} d={200}>
-              <div className="w-20 h-1 bg-blue-500 rounded-full mb-6" />
-            </Anim>
+            <Reveal active={slide === 1} delay={220} className="mt-1">
+              <h1 className={`${heading} text-white/50`}>
+                & Strategic
+              </h1>
+            </Reveal>
 
-            <Anim active={s === 1} d={280}>
-              <p className="font-display text-xl md:text-2xl font-semibold text-blue-200/90 tracking-tight mb-3">
+            <Reveal active={slide === 1} delay={320} className="mt-1">
+              <h1 className={`${heading} text-white/50`}>
+                Planning
+              </h1>
+            </Reveal>
+
+            <Reveal active={slide === 1} delay={440} className="mt-12">
+              <div className="h-px w-20 bg-white/10" />
+            </Reveal>
+
+            <Reveal active={slide === 1} delay={500} className="mt-6 max-w-md">
+              <p className="font-display text-lg font-light tracking-wide text-white/60 md:text-xl">
                 Driving Clarity. Powering Decisions.
               </p>
-            </Anim>
-
-            <Anim active={s === 1} d={350}>
-              <p className="text-lg text-white/60 max-w-lg">
+              <p className={`${body} mt-3`}>
                 Better planning. Better tools. Better insight.
               </p>
-            </Anim>
+            </Reveal>
 
-            <Anim active={s === 1} d={430}>
-              <p className="mt-8 font-display font-semibold text-sm text-white/30 tracking-[0.15em] uppercase">
-                March 2026
-              </p>
-            </Anim>
+            <Reveal active={slide === 1} delay={580} className="mt-12">
+              <p className={label}>March 2026</p>
+            </Reveal>
           </div>
 
-          {/* Right content — 3D Robot */}
-          <div className="flex-1 relative hidden md:block">
-            {s === 1 && (
-              <SplineScene
-                scene={ROBOT_SCENE_URL}
-                className="w-full h-full"
-              />
+          <div className="relative hidden h-full lg:block">
+            {slide === 1 && (
+              <SplineScene scene={ROBOT_SCENE_URL} className="h-full w-full" />
             )}
           </div>
         </div>
       </Slide>
 
-      {/* ════════════════════════════════════════
-          SLIDE 2 — WHY 2026 IS DIFFERENT
-         ════════════════════════════════════════ */}
-      <Slide active={s === 2}>
-        {/* Background orbs */}
-        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/5 blur-3xl animate-float pointer-events-none" />
-        <div className="absolute bottom-[-15%] left-[-5%] w-[400px] h-[400px] rounded-full bg-orange-500/5 blur-3xl animate-float pointer-events-none" style={{ animationDelay: '-3s' }} />
-
-        <Anim active={s === 2} d={0}>
-          <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-center mb-2">
-            Why <span className="text-blue-400">2026</span> is different
-          </h2>
-        </Anim>
-        <Anim active={s === 2} d={80}>
-          <p className="text-lg text-white/50 text-center mb-8">
-            Not future promises — already in action.
-          </p>
-        </Anim>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-[1000px] w-full">
-          {/* Banner */}
-          <Anim active={s === 2} d={120} className="md:col-span-2">
-            <div className="flex items-center gap-5 px-6 py-4 rounded-2xl bg-blue-600/20 border border-blue-400/20 backdrop-blur-xl">
-              <Zap className="w-8 h-8 text-blue-400 flex-shrink-0" />
-              <div>
-                <h3 className="font-display font-bold text-lg text-white">
-                  Changing how we work, not just what we build
-                </h3>
-                <p className="text-sm text-white/60">
-                  Every point below is live — happening now.
-                </p>
-              </div>
-            </div>
-          </Anim>
-
-          {[
-            { icon: ClipboardList, title: 'Better Requirements', desc: 'Right first time. Less rework.', color: colors.blue, num: '01' },
-            { icon: Microscope, title: 'Structured Testing', desc: 'Every release tested before it reaches you.', color: colors.orange, num: '02' },
-            { icon: MessageSquare, title: 'Change Forum', desc: 'Prioritise enhancements. Right work gets done.', color: colors.green, num: '03' },
-            { icon: Blocks, title: 'More Prototypes', desc: 'Touch and feel before we build.', color: colors.purple, num: '04' },
-            { icon: Monitor, title: 'Test Rig', desc: 'Test it yourselves. Real data, your terms.', color: colors.amber, num: '05' },
-          ].map((item, i) => (
-            <Anim key={item.num} active={s === 2} d={200 + i * 80}>
-              <Glass accentColor={item.color} className="h-full">
-                <span className="absolute top-2 right-4 font-display font-extrabold text-3xl text-white/[0.04]">
-                  {item.num}
-                </span>
-                <item.icon
-                  className="w-5 h-5 mb-3"
-                  style={{ color: item.color }}
-                />
-                <h3 className="font-display font-bold text-[15px] mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-white/50 leading-relaxed">
-                  {item.desc}
-                </p>
-              </Glass>
-            </Anim>
-          ))}
-        </div>
-      </Slide>
-
-      {/* ════════════════════════════════════════
-          SLIDE 3 — THE DELIVERY ENGINE
-         ════════════════════════════════════════ */}
-      <Slide active={s === 3}>
-        <Anim active={s === 3} d={0}>
-          <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-center mb-2">
-            The Delivery{' '}
-            <span className="text-blue-400">Engine</span>
-          </h2>
-        </Anim>
-        <Anim active={s === 3} d={80}>
-          <p className="text-lg text-white/50 text-center mb-10">
-            Built for speed, quality, and zero single-person risk.
-          </p>
-        </Anim>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1100px] w-full">
-          {[
-            { hero: '2x', title: 'Paired Working', desc: 'Lead + Second on every initiative. No single point of failure.', color: colors.blue, icon: Users },
-            { hero: '1', title: 'Kanban Board', desc: 'Single source of truth. All work visible to everyone.', color: colors.orange, icon: Kanban },
-            { hero: '30d', title: 'Warranty Period', desc: 'Post-deployment support. Issues take priority.', color: colors.green, icon: ShieldCheck },
-            { hero: '10', title: 'Definition of Done', desc: 'Point checklist. Nothing ships without it.', color: colors.purple, icon: ListChecks },
-          ].map((item, i) => (
-            <Anim key={item.hero} active={s === 3} d={160 + i * 100}>
-              <Glass accentColor={item.color} className="text-center py-8 px-5">
-                <div
-                  className="font-display font-extrabold text-5xl md:text-6xl leading-none mb-2 tracking-tighter"
-                  style={{ color: item.color }}
-                >
-                  {item.hero}
-                </div>
-                <item.icon className="w-5 h-5 mx-auto mb-2 text-white/30" />
-                <h3 className="font-display font-bold text-base mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-white/45 leading-relaxed">
-                  {item.desc}
-                </p>
-              </Glass>
-            </Anim>
-          ))}
-        </div>
-      </Slide>
-
-      {/* ════════════════════════════════════════
-          SLIDE 4 — Q1 2026 ROADMAP
-         ════════════════════════════════════════ */}
-      <Slide active={s === 4}>
-        <div className="w-full max-w-[1300px]">
-          <Anim active={s === 4} d={0}>
-            <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-center mb-1">
-              Q1 2026 <span className="text-blue-400">Roadmap</span>
+      {/* ─── SLIDE 2: Why 2026 is Different ─── */}
+      <Slide active={slide === 2}>
+        <div className="w-full max-w-6xl">
+          <Reveal active={slide === 2} delay={0}>
+            <p className={label}>Blueprint Delivery Standard</p>
+          </Reveal>
+          <Reveal active={slide === 2} delay={100} className="mt-6">
+            <h2 className={subheading}>
+              Why 2026 is<br />Different
             </h2>
-          </Anim>
-          <Anim active={s === 4} d={60}>
-            <p className="text-base text-white/50 text-center mb-6">
-              Where every initiative stands right now.
-            </p>
-          </Anim>
+          </Reveal>
+          <Reveal active={slide === 2} delay={200} className="mt-5">
+            <p className={body}>Not future promises - already in action.</p>
+          </Reveal>
 
-          {/* Phase headers */}
-          <Anim active={s === 4} d={100}>
-            <div className="grid grid-cols-[240px_repeat(4,1fr)] mb-2">
-              <div />
+          <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[0.7fr_1.3fr]">
+            <Reveal active={slide === 2} delay={260}>
+              <div className="h-px w-full bg-white/[0.06]" />
+              <p className={`${body} mt-5 max-w-sm`}>
+                Changing how we work, not just what we build. Every point below
+                is live and in flight right now.
+              </p>
+              <div className="mt-5 h-px w-full bg-white/[0.06]" />
+            </Reveal>
+            <div>
+              {whyItems.map((item, idx) => (
+                <ListLine
+                  key={item.index}
+                  active={slide === 2}
+                  delay={300 + idx * 80}
+                  {...item}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </Slide>
+
+      {/* ─── SLIDE 3: The Delivery Engine ─── */}
+      <Slide active={slide === 3}>
+        <div className="w-full max-w-6xl">
+          <Reveal active={slide === 3} delay={0}>
+            <p className={label}>Delivery Operating Model</p>
+          </Reveal>
+          <Reveal active={slide === 3} delay={100} className="mt-6">
+            <h2 className={subheading}>
+              The Delivery<br />Engine
+            </h2>
+          </Reveal>
+          <Reveal active={slide === 3} delay={200} className="mt-5">
+            <p className={body}>
+              Built for speed, quality, and zero single-person risk.
+            </p>
+          </Reveal>
+
+          <Reveal active={slide === 3} delay={260} className="mt-10">
+            <div className="grid grid-cols-2 gap-8 border-y border-white/[0.06] py-7 md:grid-cols-4">
               {[
-                { label: 'Discovery', color: colors.discovery },
-                { label: 'Build', color: colors.build },
-                { label: 'Test', color: colors.test },
-                { label: 'Live', color: colors.live },
-              ].map((p) => (
-                <div
-                  key={p.label}
-                  className="text-center text-[11px] font-bold uppercase tracking-[0.12em] py-2 rounded-t-lg"
-                  style={{ color: p.color, background: `${p.color}15` }}
-                >
-                  {p.label}
+                ['2x', 'Paired Working'],
+                ['1', 'Kanban Board'],
+                ['30d', 'Warranty'],
+                ['10', 'Point DoD'],
+              ].map(([value, lbl]) => (
+                <div key={lbl} className="space-y-2">
+                  <p className="font-sans text-4xl font-extralight tracking-wider text-white/75 md:text-5xl">
+                    {value}
+                  </p>
+                  <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-white/25">
+                    {lbl}
+                  </p>
                 </div>
               ))}
             </div>
-          </Anim>
+          </Reveal>
 
-          {/* Pipeline rows */}
-          {[
-            {
-              title: 'Short-Term Outlooks',
-              sub: 'All 4 areas actively testing',
-              tags: ['Mark / John / Ian'],
-              left: '0%',
-              width: '68%',
-              label: 'In Testing',
-              color: colors.test,
-            },
-            {
-              title: 'Fraud GUI',
-              sub: 'Target: live end Q1',
-              tags: ['Ian (Lead) / John (2nd)'],
-              left: '0%',
-              width: '42%',
-              label: 'In Build',
-              color: colors.build,
-            },
-            {
-              title: 'Strategic Supply',
-              sub: 'Workshop \u2192 requirements \u2192 build',
-              tags: ['Chris (Lead) / Simon (2nd)'],
-              left: '0%',
-              width: '35%',
-              label: 'Discovery \u2192 Build',
-              color: colors.discovery,
-            },
-            {
-              title: 'Complaints Allocation',
-              sub: 'Legacy tech replaced',
-              tags: ['Simon (Lead)'],
-              left: '0%',
-              width: '92%',
-              label: 'Live \u2014 Warranty',
-              color: colors.live,
-            },
-            {
-              title: 'Intra-Month Shapes',
-              sub: 'ML \u2014 testing & live',
-              tags: ['Mark', 'ML'],
-              left: '50%',
-              width: '45%',
-              label: 'Testing / Live',
-              color: colors.test,
-            },
-          ].map((row, i) => (
-            <Anim key={row.title} active={s === 4} d={180 + i * 100}>
-              <div className="grid grid-cols-[240px_1fr] items-center mb-3">
-                <div className="pr-5">
-                  <h4 className="font-display text-[15px] font-bold leading-tight mb-0.5">
-                    {row.title}
-                  </h4>
-                  <p className="text-xs text-white/40 leading-tight">
-                    {row.sub}
-                  </p>
-                  <div className="flex gap-1.5 mt-1 flex-wrap">
-                    {row.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative h-12 bg-white/[0.03] rounded-xl overflow-hidden border border-white/[0.06]">
-                  {/* Grid lines */}
-                  <div className="absolute top-0 bottom-0 left-1/4 w-px bg-white/[0.06]" />
-                  <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/[0.06]" />
-                  <div className="absolute top-0 bottom-0 left-3/4 w-px bg-white/[0.06]" />
-
-                  <PipelineBar
-                    left={row.left}
-                    width={row.width}
-                    label={row.label}
-                    color={row.color}
-                    delay={400 + i * 150}
-                    active={s === 4}
-                  />
-                </div>
-              </div>
-            </Anim>
-          ))}
+          <div className="mt-3">
+            {deliveryItems.map((item, idx) => (
+              <ListLine
+                key={item.index}
+                active={slide === 3}
+                delay={340 + idx * 80}
+                {...item}
+              />
+            ))}
+          </div>
         </div>
       </Slide>
 
-      {/* ════════════════════════════════════════
-          SLIDE 5 — FLAGSHIP: SHORT-TERM OUTLOOKS
-         ════════════════════════════════════════ */}
-      <Slide active={s === 5}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-[1100px] w-full items-center">
+      {/* ─── SLIDE 4: Q1 Roadmap ─── */}
+      <Slide active={slide === 4}>
+        <div className="w-full max-w-6xl">
+          <Reveal active={slide === 4} delay={0}>
+            <p className={label}>Current Positioning by Initiative</p>
+          </Reveal>
+          <Reveal active={slide === 4} delay={100} className="mt-6">
+            <h2 className={subheading}>
+              Q1 2026<br />Roadmap
+            </h2>
+          </Reveal>
+          <Reveal active={slide === 4} delay={200} className="mt-5">
+            <p className={body}>Where every initiative stands right now.</p>
+          </Reveal>
+
+          <Reveal active={slide === 4} delay={260} className="mt-10">
+            <div className="hidden grid-cols-[240px_repeat(4,1fr)] border-b border-white/[0.06] pb-3 md:grid">
+              <span />
+              {['Discovery', 'Build', 'Test', 'Live'].map((name) => (
+                <span
+                  key={name}
+                  className="text-center font-sans text-[10px] uppercase tracking-[0.22em] text-white/25"
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="mt-1">
+            {roadmapRows.map((row, idx) => (
+              <RoadmapLine
+                key={row.title}
+                active={slide === 4}
+                delay={320 + idx * 80}
+                row={row}
+              />
+            ))}
+          </div>
+        </div>
+      </Slide>
+
+      {/* ─── SLIDE 5: Short-Term Outlooks ─── */}
+      <Slide active={slide === 5}>
+        <div className="grid w-full max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div>
-            <Anim active={s === 5} d={0}>
-              <span className="inline-flex items-center gap-2 font-display font-bold text-xs tracking-[0.15em] uppercase text-orange-400 mb-4">
-                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-                Flagship Delivery
-              </span>
-            </Anim>
-
-            <Anim active={s === 5} d={100}>
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] mb-5">
-                Short-Term
-                <br />
-                <span className="text-blue-400">Outlooks</span>
+            <Reveal active={slide === 5} delay={0}>
+              <p className={label}>Flagship Delivery</p>
+            </Reveal>
+            <Reveal active={slide === 5} delay={110} className="mt-6">
+              <h2 className={subheading}>
+                Short-Term<br />Outlooks
               </h2>
-            </Anim>
-
-            <Anim active={s === 5} d={180}>
-              <p className="text-base text-white/55 leading-relaxed mb-4">
-                All four areas <strong className="text-white/80">actively testing</strong> the new web-based interface right now.
+            </Reveal>
+            <Reveal active={slide === 5} delay={220} className="mt-6">
+              <p className={body}>
+                All four areas actively testing the new web-based interface
+                right now.
               </p>
-            </Anim>
-
-            <Anim active={s === 5} d={240}>
-              <p className="text-base text-white/55 leading-relaxed mb-6">
-                Where better requirements, structured testing, and the test rig all come together.
+              <p className={`${body} mt-3`}>
+                Where better requirements, structured testing, and the test rig
+                all come together.
               </p>
-            </Anim>
-
-            <Anim active={s === 5} d={300}>
-              <Glass className="!p-4">
-                <p className="text-sm text-white/50">
-                  <strong className="text-white/80">Thank you</strong> to{' '}
-                  <strong className="text-white/80">Mark</strong>,{' '}
-                  <strong className="text-white/80">John</strong>,{' '}
-                  <strong className="text-white/80">Ian</strong> and{' '}
-                  <strong className="text-white/80">Terrie</strong>.
-                </p>
-              </Glass>
-            </Anim>
+            </Reveal>
+            <Reveal active={slide === 5} delay={300} className="mt-8">
+              <div className="h-px w-full bg-white/[0.06]" />
+              <p className="mt-4 font-display text-sm tracking-wide text-white/40">
+                Thank you to <span className="text-white/70">Mark</span>,{' '}
+                <span className="text-white/70">John</span>,{' '}
+                <span className="text-white/70">Ian</span> and{' '}
+                <span className="text-white/70">Terrie</span>.
+              </p>
+            </Reveal>
           </div>
 
-          <Anim active={s === 5} d={200}>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-blue-500/10 rounded-3xl blur-xl" />
+          <Reveal active={slide === 5} delay={180}>
+            <div className="overflow-hidden rounded border border-white/[0.06]">
               <Image
                 src="/short-term-outlooks.jpg"
                 alt="Short-Term Outlooks Tool"
-                width={800}
-                height={500}
-                className="relative w-full rounded-2xl border border-white/10 shadow-2xl shadow-black/40"
+                width={1200}
+                height={760}
+                className="h-full w-full object-cover"
               />
             </div>
-          </Anim>
+          </Reveal>
         </div>
       </Slide>
 
-      {/* ════════════════════════════════════════
-          SLIDE 6 — STRATEGIC PLANNING DIVIDER
-         ════════════════════════════════════════ */}
-      <Slide active={s === 6} className="!p-0">
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-[#06060f]/80 z-[1]" />
-
-        <div className="relative z-10 text-center px-8">
-          <Anim active={s === 6} d={0}>
-            <span className="inline-flex items-center gap-2 px-5 py-2 bg-purple-500/15 backdrop-blur-sm border border-purple-400/25 rounded-full text-purple-300 text-xs font-bold tracking-[0.2em] uppercase mb-8">
-              Part 2
-            </span>
-          </Anim>
-
-          <Anim active={s === 6} d={120}>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] mb-6">
-              Strategic
-              <br />
-              <span className="text-purple-400">
-                Planning
-              </span>
-            </h1>
-          </Anim>
-
-          <Anim active={s === 6} d={200}>
-            <div className="w-20 h-1 bg-purple-500 rounded-full mx-auto mb-6" />
-          </Anim>
-
-          <Anim active={s === 6} d={280}>
-            <p className="font-display text-xl md:text-2xl font-semibold text-purple-200/80 tracking-tight">
+      {/* ─── SLIDE 6: Strategic Planning (Divider) ─── */}
+      <Slide active={slide === 6}>
+        <div className="w-full max-w-5xl text-center">
+          <Reveal active={slide === 6} delay={0}>
+            <p className={label}>Part 2</p>
+          </Reveal>
+          <Reveal active={slide === 6} delay={140} className="mt-8">
+            <h2 className={heading}>
+              Strategic<br />Planning
+            </h2>
+          </Reveal>
+          <Reveal active={slide === 6} delay={300} className="mx-auto mt-12 max-w-md">
+            <div className="mx-auto h-px w-20 bg-white/10" />
+            <p className="mt-6 font-display text-lg font-light tracking-wide text-white/45 md:text-xl">
               Delivering the Forecast. Raising the Bar.
             </p>
-          </Anim>
+          </Reveal>
         </div>
       </Slide>
 
-      {/* ════════════════════════════════════════
-          SLIDE 7 — Q2F: DELIVERING AT SCALE
-         ════════════════════════════════════════ */}
-      <Slide active={s === 7}>
-        <Anim active={s === 7} d={0}>
-          <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-center mb-2">
-            Q2F — Delivering{' '}
-            <span className="text-blue-400">at Scale</span>
-          </h2>
-        </Anim>
-        <Anim active={s === 7} d={80}>
-          <p className="text-lg text-white/50 text-center mb-6">
-            Multi-million pound process. Thousands of colleagues. On track.
-          </p>
-        </Anim>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[960px] w-full">
-          {/* Success banner */}
-          <Anim active={s === 7} d={120} className="md:col-span-3">
-            <div className="flex items-center gap-5 px-6 py-4 rounded-2xl bg-green-600/20 border border-green-400/20 backdrop-blur-xl">
-              <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                <ShieldCheck className="w-5 h-5 text-green-400" />
-              </div>
-              <div>
-                <h3 className="font-display font-bold text-lg text-white">
-                  CG, HCS & Personal Banking on track
-                </h3>
-                <p className="text-sm text-white/55">
-                  Demand locked down on time. Real collective effort.
-                </p>
-              </div>
+      {/* ─── SLIDE 7: Q2F ─── */}
+      <Slide active={slide === 7}>
+        <div className="w-full max-w-6xl">
+          <Reveal active={slide === 7} delay={0}>
+            <p className={label}>Forecast Delivery at Scale</p>
+          </Reveal>
+          <Reveal active={slide === 7} delay={100} className="mt-6">
+            <h2 className={subheading}>
+              Q2F - Delivering<br />at Scale
+            </h2>
+          </Reveal>
+          <Reveal active={slide === 7} delay={200} className="mt-5">
+            <p className={body}>
+              Multi-million pound process. Thousands of colleagues. On track.
+            </p>
+          </Reveal>
+          <Reveal active={slide === 7} delay={280} className="mt-8">
+            <div className="grid grid-cols-1 gap-6 border-y border-white/[0.06] py-6 md:grid-cols-2">
+              <p className="font-display text-sm tracking-wide text-white/55 md:text-base">
+                CG, HCS and Personal Banking on track.
+              </p>
+              <p className="font-display text-sm tracking-wide text-white/35 md:text-base">
+                Demand locked down on time. Real collective effort.
+              </p>
             </div>
-          </Anim>
+          </Reveal>
 
-          {[
-            { icon: CalendarCheck, title: 'Timelines Done', desc: 'All three areas. No slippage.', color: colors.blue },
-            { icon: Lock, title: 'Demand Locked', desc: 'On time. No last-minute scramble.', color: colors.orange },
-            { icon: UserCheck, title: 'Directors Booked', desc: 'All meetings in the diary. Storyboarding underway.', color: colors.green },
-            { icon: TrendingUp, title: 'Benefits — Turning the Dial', desc: 'Home & CG building foundations. Starting to see traction.', color: colors.purple },
-          ].map((item, i) => (
-            <Anim key={item.title} active={s === 7} d={200 + i * 80}>
-              <Glass accentColor={item.color} className="h-full">
-                <item.icon
-                  className="w-5 h-5 mb-3"
-                  style={{ color: item.color }}
-                />
-                <h3 className="font-display font-bold text-[15px] mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-white/45 leading-relaxed">
-                  {item.desc}
-                </p>
-              </Glass>
-            </Anim>
-          ))}
+          <div className="mt-3">
+            {q2fItems.map((item, idx) => (
+              <ListLine
+                key={item.index}
+                active={slide === 7}
+                delay={350 + idx * 80}
+                {...item}
+              />
+            ))}
+          </div>
         </div>
       </Slide>
 
-      {/* ════════════════════════════════════════
-          SLIDE 8 — BETTER INSIGHT & DECISIONS
-         ════════════════════════════════════════ */}
-      <Slide active={s === 8}>
-        <Anim active={s === 8} d={0}>
-          <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-center mb-2">
-            Better <span className="text-blue-400">Insight</span> & Decisions
-          </h2>
-        </Anim>
-        <Anim active={s === 8} d={80}>
-          <p className="text-lg text-white/50 text-center mb-6">
-            Beyond the day job — raising the bar.
-          </p>
-        </Anim>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[960px] w-full">
-          {/* Accent banner */}
-          <Anim active={s === 8} d={120} className="md:col-span-3">
-            <div className="flex items-center gap-5 px-6 py-4 rounded-2xl bg-blue-600/20 border border-blue-400/20 backdrop-blur-xl">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-5 h-5 text-blue-400" />
-              </div>
-              <div>
-                <h3 className="font-display font-bold text-lg text-white">
-                  Automating effort. Consolidating insight. Simplifying forums.
-                </h3>
-              </div>
+      {/* ─── SLIDE 8: Better Insight ─── */}
+      <Slide active={slide === 8}>
+        <div className="w-full max-w-6xl">
+          <Reveal active={slide === 8} delay={0}>
+            <p className={label}>Beyond the Day Job</p>
+          </Reveal>
+          <Reveal active={slide === 8} delay={100} className="mt-6">
+            <h2 className={subheading}>
+              Better Insight<br />and Decisions
+            </h2>
+          </Reveal>
+          <Reveal active={slide === 8} delay={200} className="mt-5">
+            <p className={body}>Beyond the day job - raising the bar.</p>
+          </Reveal>
+          <Reveal active={slide === 8} delay={280} className="mt-8">
+            <div className="border-y border-white/[0.06] py-6">
+              <p className="font-display text-sm tracking-wide text-white/50 md:text-base">
+                Automating effort. Consolidating insight. Simplifying forums.
+              </p>
             </div>
-          </Anim>
+          </Reveal>
 
-          {[
-            { icon: BarChart3, title: 'Consolidated View', desc: 'All Scots areas in one view — direct to Consumer Channel leadership.', color: colors.blue },
-            { icon: Cog, title: 'Daily Run Rates', desc: 'Fully automated. Manual effort eliminated.', color: colors.orange },
-            { icon: FileText, title: 'Bereavement Contact Rates', desc: 'Fully automated. Consistent and reliable.', color: colors.green },
-            { icon: LineChart, title: 'Benefits Tracking', desc: '80% on Blueprint.', color: colors.purple },
-            { icon: Target, title: 'Steering Reimagined', desc: 'Chart-led. Simplified. Less noise, better decisions.', color: colors.amber },
-          ].map((item, i) => (
-            <Anim key={item.title} active={s === 8} d={200 + i * 80}>
-              <Glass accentColor={item.color} className="h-full">
-                <item.icon
-                  className="w-5 h-5 mb-3"
-                  style={{ color: item.color }}
-                />
-                <h3 className="font-display font-bold text-[15px] mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-white/45 leading-relaxed">
-                  {item.desc}
-                </p>
-              </Glass>
-            </Anim>
-          ))}
+          <div className="mt-3">
+            {insightItems.map((item, idx) => (
+              <ListLine
+                key={item.index}
+                active={slide === 8}
+                delay={350 + idx * 80}
+                {...item}
+              />
+            ))}
+          </div>
         </div>
       </Slide>
     </main>
