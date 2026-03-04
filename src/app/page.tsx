@@ -246,10 +246,6 @@ export default function Presentation() {
         style={{ width: `${(slide / TOTAL) * 100}%` }}
       />
 
-      {/* Slide label - top right */}
-      <div className="fixed right-8 top-7 z-40 hidden font-sans text-[11px] tracking-[0.18em] text-white/25 md:block md:right-12">
-        Scot Team Call
-      </div>
 
       {/* Slide counter - bottom right */}
       <div className="fixed bottom-7 right-8 z-50 font-sans text-sm tracking-[0.15em] text-white/20 md:right-12">
