@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint & Strategic Planning — Q1 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM — Dark Premium
+   ═══════════════════════════════════════════ */
+:root {
+  --bg:            #030712;
+  --bg-card:       rgba(255,255,255,0.05);
+  --bg-card-hover: rgba(255,255,255,0.08);
+  --border:        rgba(255,255,255,0.1);
+  --border-hover:  rgba(255,255,255,0.2);
+  --text:          #F8FAFC;
+  --text-secondary:#94A3B8;
+  --text-muted:    #64748B;
+  --accent-blue:   #0ea5e9;
+  --accent-orange: #f97316;
+  --accent-green:  #22c55e;
+  --accent-purple: #a855f7;
+  --accent-gold:   #eab308;
+  --glow-blue:     rgba(14,165,233,0.4);
+  --glow-orange:   rgba(249,115,22,0.4);
+  --glow-green:    rgba(34,197,94,0.4);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE SYSTEM
+   ═══════════════════════════════════════════ */
+.slide {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0.8s;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s;
+}
+
+/* Hero background */
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.slide-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(3,7,18,0.5) 0%,
+    rgba(3,7,18,0.7) 40%,
+    rgba(3,7,18,0.85) 100%
+  );
+}
+
+.slide-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  padding: 48px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS BAR
+   ═══════════════════════════════════════════ */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-orange));
+  z-index: 1000;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0 2px 2px 0;
+}
+
+.slide-counter {
+  position: fixed;
+  bottom: 32px;
+  right: 48px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  z-index: 1000;
+  letter-spacing: 0.1em;
+}
+.slide-counter .current { color: var(--accent-blue); font-size: 20px; font-weight: 700; }
+
+.nav-hint {
+  position: fixed;
+  bottom: 32px;
+  left: 48px;
+  font-size: 12px;
+  color: var(--text-muted);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+}
+.nav-hint kbd {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════ */
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+.slide-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.slide-subtitle {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 600px;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.accent-blue { color: var(--accent-blue); }
+.accent-orange { color: var(--accent-orange); }
+.accent-green { color: var(--accent-green); }
+.accent-purple { color: var(--accent-purple); }
+
+/* ═══════════════════════════════════════════
+   GLASSMORPHISM CARDS
+   ═══════════════════════════════════════════ */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  cursor: pointer;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* Glow variants */
+.glow-blue:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--glow-blue); border-color: rgba(14,165,233,0.3); }
+.glow-orange:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--glow-orange); border-color: rgba(249,115,22,0.3); }
+.glow-green:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--glow-green); border-color: rgba(34,197,94,0.3); }
+
+/* Top accent line */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20px; right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+
+.glass-card { position: relative; overflow: hidden; }
+
+/* ═══════════════════════════════════════════
+   SVG ICONS
+   ═══════════════════════════════════════════ */
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.icon-lg { width: 32px; height: 32px; }
+
+.icon-container {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.icon-blue { background: rgba(14,165,233,0.15); color: var(--accent-blue); }
+.icon-orange { background: rgba(249,115,22,0.15); color: var(--accent-orange); }
+.icon-green { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+.icon-purple { background: rgba(168,85,247,0.15); color: var(--accent-purple); }
+.icon-gold { background: rgba(234,179,8,0.15); color: var(--accent-gold); }
+
+/* ═══════════════════════════════════════════
+   ANIMATION SYSTEM
+   ═══════════════════════════════════════════ */
+.anim-in {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.slide.active .anim-in {
+  animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide.active .anim-in:nth-child(1)  { animation-delay: 0.1s; }
+.slide.active .anim-in:nth-child(2)  { animation-delay: 0.2s; }
+.slide.active .anim-in:nth-child(3)  { animation-delay: 0.3s; }
+.slide.active .anim-in:nth-child(4)  { animation-delay: 0.4s; }
+.slide.active .anim-in:nth-child(5)  { animation-delay: 0.5s; }
+.slide.active .anim-in:nth-child(6)  { animation-delay: 0.6s; }
+.slide.active .anim-in:nth-child(7)  { animation-delay: 0.7s; }
+.slide.active .anim-in:nth-child(8)  { animation-delay: 0.8s; }
+.slide.active .anim-in:nth-child(9)  { animation-delay: 0.9s; }
+.slide.active .anim-in:nth-child(10) { animation-delay: 1.0s; }
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes barGrow {
+  from { width: 0%; opacity: 0.6; }
+  to   { width: var(--bar-pct); opacity: 1; }
+}
+
+@keyframes drawLine {
+  from { width: 0; }
+  to   { width: 80px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 1 — TITLE
+   ═══════════════════════════════════════════ */
+.title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14,165,233,0.15);
+  color: var(--accent-blue);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(14,165,233,0.2);
+  margin-bottom: 32px;
+}
+
+.title-main {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 6vw, 84px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-divider {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+.slide.active .title-divider {
+  animation: drawLine 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+  width: 0;
+}
+
+.title-tagline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(18px, 2vw, 28px);
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.title-desc {
+  font-size: clamp(15px, 1.3vw, 19px);
+  color: var(--text-muted);
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.title-date {
+  margin-top: 36px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 2 — GRID CARDS
+   ═══════════════════════════════════════════ */
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 960px;
+  width: 100%;
+}
+
+.diff-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.diff-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.diff-card.banner-card {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(168,85,247,0.1));
+  border-color: rgba(14,165,233,0.2);
+}
+
+.diff-card.banner-card h3 { font-size: 17px; }
+.diff-card.banner-card p { color: var(--text-secondary); font-size: 14px; }
+
+/* ═══════════════════════════════════════════
+   SLIDE 3 — ENGINE HERO NUMBERS
+   ═══════════════════════════════════════════ */
+.engine-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.engine-hero-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+}
+
+.engine-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.engine-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 4 — PIPELINE
+   ═══════════════════════════════════════════ */
+.pipeline-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.pipeline-phases {
+  display: grid;
+  grid-template-columns: 240px repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 8px;
+}
+
+.phase-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 8px 16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.ph-disc  { color: #7A8BA8; background: rgba(122,139,168,0.1); }
+.ph-build { color: var(--accent-blue); background: rgba(14,165,233,0.08); }
+.ph-test  { color: var(--accent-orange); background: rgba(249,115,22,0.08); }
+.ph-live  { color: var(--accent-green); background: rgba(34,197,94,0.08); }
+
+.pipeline-row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: center;
+  margin-bottom: 14px;
+  min-height: 72px;
+}
+
+.pipeline-label h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.pipeline-label .pipe-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.pipeline-label .pipe-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.pipe-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(14,165,233,0.12);
+  color: var(--accent-blue);
+}
+
+.pipeline-track {
+  position: relative;
+  height: 48px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.pipeline-track .grid-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,0.06);
+  z-index: 1;
+}
+
+.pipeline-bar {
+  position: absolute;
+  top: 5px; bottom: 5px;
+  border-radius: 8px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.02em;
+  width: 0;
+}
+
+.slide.active .pipeline-bar {
+  animation: barGrow 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slide.active .pipeline-row:nth-child(2) .pipeline-bar { animation-delay: 0.15s; }
+.slide.active .pipeline-row:nth-child(3) .pipeline-bar { animation-delay: 0.30s; }
+.slide.active .pipeline-row:nth-child(4) .pipeline-bar { animation-delay: 0.45s; }
+.slide.active .pipeline-row:nth-child(5) .pipeline-bar { animation-delay: 0.60s; }
+.slide.active .pipeline-row:nth-child(6) .pipeline-bar { animation-delay: 0.75s; }
+
+.pipeline-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite 1.5s;
+}
+
+.bar-blue-purple { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+.bar-blue { background: var(--accent-blue); }
+.bar-blue-orange { background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange)); }
+.bar-green { background: var(--accent-green); }
+.bar-orange-green { background: linear-gradient(90deg, var(--accent-orange), var(--accent-green)); }
+
+/* ═══════════════════════════════════════════
+   SLIDE 5 — FLAGSHIP
+   ═══════════════════════════════════════════ */
+.flagship-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center;
+}
+
+.flagship-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+  margin-bottom: 16px;
+}
+
+.flagship-label .pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.flagship-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.flagship-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.flagship-thanks {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.flagship-thanks strong { color: var(--text); }
+
+.flagship-screenshot {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(14,165,233,0.1);
+  border: 1px solid var(--border);
+}
+
+.flagship-screenshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════
+   STAT CARDS (Slides 7 & 8)
+   ═══════════════════════════════════════════ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 960px;
+  width: 100%;
+}
+
+.stat-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.stat-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.stat-card p strong { color: var(--text); font-weight: 600; }
+
+/* Banner card */
+.stat-banner {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+}
+
+.stat-banner.banner-green {
+  background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+  border-color: rgba(34,197,94,0.2);
+}
+
+.stat-banner.banner-blue {
+  background: linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05));
+  border-color: rgba(14,165,233,0.2);
+}
+
+.stat-banner h3 { font-size: 17px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .slide-content { padding: 32px 24px; }
+  .diff-grid { grid-template-columns: 1fr; }
+  .engine-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-grid { grid-template-columns: 1fr; }
+  .flagship-layout { grid-template-columns: 1fr; }
+  .pipeline-row { grid-template-columns: 1fr; }
+  .pipeline-phases { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Slide counter -->
+<div class="slide-counter" id="slideCounter">
+  <span class="current">01</span> / 08
+</div>
+
+<!-- Nav hint -->
+<div class="nav-hint">
+  <kbd>SPACE</kbd> or <kbd>&rarr;</kbd> to advance &middot; <kbd>&larr;</kbd> back
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ═══════════════════════════════════════════ -->
+<div class="slide active" data-slide="1">
+  <div class="slide-bg" style="background-image:url('hero-slide1.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in title-badge">Q1 2026 Update</div>
+    <h1 class="anim-in title-main">Blueprint &amp;<br><span class="title-gradient">Strategic Planning</span></h1>
+    <div class="anim-in title-divider"></div>
+    <div class="anim-in title-tagline">Driving Clarity. Powering Decisions.</div>
+    <p class="anim-in title-desc">Better planning. Better tools. Better insight.</p>
+    <div class="anim-in title-date">March 2026</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 2 — WHY 2026 IS DIFFERENT
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="2">
+  <div class="slide-bg" style="background-image:url('hero-slide2.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in slide-title">Why <span class="accent-blue">2026</span> is different</div>
+    <div class="anim-in slide-subtitle">Not future promises &mdash; already in action.</div>
+    <div class="diff-grid">
+      <div class="glass-card diff-card banner-card anim-in">
+        <div class="icon-container icon-blue">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <div>
+          <h3>Changing how we work, not just what we build</h3>
+          <p>Every point below is live &mdash; happening now.</p>
+        </div>
+      </div>
+      <div class="glass-card diff-card glow-blue anim-in">
+        <div class="icon-container icon-blue">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg>
+        </div>
+        <h3>Better Requirements</h3>
+        <p>Right first time. <strong style="color:var(--text)">Less rework.</strong></p>
+      </div>
+      <div class="glass-card diff-card glow-orange anim-in">
+        <div class="icon-container icon-orange">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9.75 9.75L12 12m0 0 2.25 2.25M12 12l2.25-2.25M12 12 9.75 14.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <h3>Structured Testing</h3>
+        <p>Every release tested <strong style="color:var(--text)">before it reaches you.</strong></p>
+      </div>
+      <div class="glass-card diff-card glow-green anim-in">
+        <div class="icon-container icon-green">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
+        </div>
+        <h3>Change Forum</h3>
+        <p>Prioritise enhancements. <strong style="color:var(--text)">Right work gets done.</strong></p>
+      </div>
+      <div class="glass-card diff-card glow-blue anim-in">
+        <div class="icon-container icon-purple">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/></svg>
+        </div>
+        <h3>More Prototypes</h3>
+        <p><strong style="color:var(--text)">Touch and feel</strong> before we build.</p>
+      </div>
+      <div class="glass-card diff-card glow-orange anim-in">
+        <div class="icon-container icon-gold">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5a3 3 0 1 0 0-6m-16.5-3a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3m-19.5 0a4.5 4.5 0 0 1 .9-2.7L5.737 5.1a3.375 3.375 0 0 1 2.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 0 1 .9 2.7m0 0a3 3 0 0 1-3 3m0 3h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Zm-3 6h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Z"/></svg>
+        </div>
+        <h3>Test Rig</h3>
+        <p>Test it yourselves. <strong style="color:var(--text)">Real data, your terms.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 3 — THE DELIVERY ENGINE
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="3">
+  <div class="slide-bg" style="background-image:url('hero-slide3.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in slide-title">The Delivery <span class="accent-blue">Engine</span></div>
+    <div class="anim-in slide-subtitle">Built for speed, quality, and zero single-person risk.</div>
+    <div class="engine-grid">
+      <div class="glass-card engine-card glow-blue anim-in">
+        <div class="engine-hero-num accent-blue">2x</div>
+        <h3>Paired Working</h3>
+        <p>Lead + Second on every initiative. No single point of failure.</p>
+      </div>
+      <div class="glass-card engine-card glow-orange anim-in">
+        <div class="engine-hero-num accent-orange">1</div>
+        <h3>Kanban Board</h3>
+        <p>Single source of truth. All work visible to everyone.</p>
+      </div>
+      <div class="glass-card engine-card glow-green anim-in">
+        <div class="engine-hero-num accent-green">30d</div>
+        <h3>Warranty Period</h3>
+        <p>Post-deployment support. Issues take priority.</p>
+      </div>
+      <div class="glass-card engine-card glow-blue anim-in">
+        <div class="engine-hero-num accent-purple">10</div>
+        <h3>Definition of Done</h3>
+        <p>Point checklist. Nothing ships without it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 4 — PIPELINE ROADMAP
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="4">
+  <div class="slide-bg" style="background-image:url('hero-slide4.png')"></div>
+  <div class="slide-content" style="max-width:1300px;">
+    <div class="anim-in slide-title">Q1 2026 <span class="accent-blue">Roadmap</span></div>
+    <div class="anim-in slide-subtitle">Where every initiative stands right now.</div>
+    <div class="pipeline-container">
+      <div class="pipeline-phases anim-in">
+        <div></div>
+        <div class="phase-label ph-disc">Discovery</div>
+        <div class="phase-label ph-build">Build</div>
+        <div class="phase-label ph-test">Test</div>
+        <div class="phase-label ph-live">Live</div>
+      </div>
+
+      <div class="pipeline-row anim-in">
+        <div class="pipeline-label">
+          <h4>Short-Term Outlooks</h4>
+          <div class="pipe-sub">All 4 areas actively testing</div>
+          <div class="pipe-tags"><span class="pipe-tag">Mark / John / Ian</span></div>
+        </div>
+        <div class="pipeline-track">
+          <div class="grid-line" style="left:25%"></div>
+          <div class="grid-line" style="left:50%"></div>
+          <div class="grid-line" style="left:75%"></div>
+          <div class="pipeline-bar bar-blue-purple" style="left:0%;--bar-pct:68%;">In Testing</div>
+        </div>
+      </div>
+
+      <div class="pipeline-row anim-in">
+        <div class="pipeline-label">
+          <h4>Fraud GUI</h4>
+          <div class="pipe-sub">Target: live end Q1</div>
+          <div class="pipe-tags"><span class="pipe-tag">Ian (Lead) / John (2nd)</span></div>
+        </div>
+        <div class="pipeline-track">
+          <div class="grid-line" style="left:25%"></div>
+          <div class="grid-line" style="left:50%"></div>
+          <div class="grid-line" style="left:75%"></div>
+          <div class="pipeline-bar bar-blue" style="left:0%;--bar-pct:42%;">In Build</div>
+        </div>
+      </div>
+
+      <div class="pipeline-row anim-in">
+        <div class="pipeline-label">
+          <h4>Strategic Supply</h4>
+          <div class="pipe-sub">Workshop &rarr; requirements &rarr; build</div>
+          <div class="pipe-tags"><span class="pipe-tag">Chris (Lead) / Simon (2nd)</span></div>
+        </div>
+        <div class="pipeline-track">
+          <div class="grid-line" style="left:25%"></div>
+          <div class="grid-line" style="left:50%"></div>
+          <div class="grid-line" style="left:75%"></div>
+          <div class="pipeline-bar bar-blue-orange" style="left:0%;--bar-pct:35%;">Discovery &rarr; Build</div>
+        </div>
+      </div>
+
+      <div class="pipeline-row anim-in">
+        <div class="pipeline-label">
+          <h4>Complaints Allocation</h4>
+          <div class="pipe-sub">Legacy tech replaced</div>
+          <div class="pipe-tags"><span class="pipe-tag">Simon (Lead)</span></div>
+        </div>
+        <div class="pipeline-track">
+          <div class="grid-line" style="left:25%"></div>
+          <div class="grid-line" style="left:50%"></div>
+          <div class="grid-line" style="left:75%"></div>
+          <div class="pipeline-bar bar-green" style="left:0%;--bar-pct:92%;">Live &mdash; Warranty</div>
+        </div>
+      </div>
+
+      <div class="pipeline-row anim-in">
+        <div class="pipeline-label">
+          <h4>Intra-Month Shapes</h4>
+          <div class="pipe-sub">ML &mdash; testing &amp; live</div>
+          <div class="pipe-tags">
+            <span class="pipe-tag">Mark</span>
+            <span class="pipe-tag" style="background:rgba(168,85,247,0.12);color:var(--accent-purple);">ML</span>
+          </div>
+        </div>
+        <div class="pipeline-track">
+          <div class="grid-line" style="left:25%"></div>
+          <div class="grid-line" style="left:50%"></div>
+          <div class="grid-line" style="left:75%"></div>
+          <div class="pipeline-bar bar-orange-green" style="left:50%;--bar-pct:45%;">Testing / Live</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 5 — FLAGSHIP
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="5">
+  <div class="slide-bg" style="background-image:url('hero-slide5.png')"></div>
+  <div class="slide-content">
+    <div class="flagship-layout">
+      <div>
+        <div class="anim-in flagship-label"><span class="pulse-dot"></span> Flagship Delivery</div>
+        <h2 class="anim-in flagship-title">Short-Term<br><span class="accent-blue">Outlooks</span></h2>
+        <p class="anim-in flagship-desc">All four areas <strong style="color:var(--text)">actively testing</strong> the new web-based interface right now.</p>
+        <p class="anim-in flagship-desc">Where better requirements, structured testing, and the test rig all come together.</p>
+        <div class="anim-in flagship-thanks">
+          <strong>Thank you</strong> to <strong>Mark</strong>, <strong>John</strong>, <strong>Ian</strong> and <strong>Terrie</strong>.
+        </div>
+      </div>
+      <div class="anim-in flagship-screenshot" style="animation-delay:0.4s;">
+        <img src="short-term-outlooks.jpg" alt="Short-Term Outlooks Tool">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 6 — STRATEGIC PLANNING DIVIDER
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="6">
+  <div class="slide-bg" style="background-image:url('hero-slide6.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in title-badge" style="background:rgba(249,115,22,0.15);color:var(--accent-orange);border-color:rgba(249,115,22,0.2);">Part 2</div>
+    <h1 class="anim-in title-main">Strategic<br><span style="background:linear-gradient(135deg,var(--accent-orange),var(--accent-gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning</span></h1>
+    <div class="anim-in title-divider" style="background:linear-gradient(90deg,var(--accent-orange),var(--accent-gold));"></div>
+    <div class="anim-in title-tagline">Delivering the Forecast. Raising the Bar.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 7 — Q2F: DELIVERING AT SCALE
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="7">
+  <div class="slide-bg" style="background-image:url('hero-slide7.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in slide-title">Q2F &mdash; Delivering <span class="accent-blue">at Scale</span></div>
+    <div class="anim-in slide-subtitle">Multi-million pound process. Thousands of colleagues. On track.</div>
+    <div class="stat-grid">
+      <div class="glass-card stat-card stat-banner banner-green anim-in">
+        <div class="icon-container icon-green" style="margin-bottom:0;">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+        </div>
+        <div>
+          <h3>CG, HCS &amp; Personal Banking on track</h3>
+          <p>Demand locked down on time. Real collective effort.</p>
+        </div>
+      </div>
+      <div class="glass-card stat-card glow-blue anim-in">
+        <div class="icon-container icon-blue">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+        </div>
+        <h3>Timelines Done</h3>
+        <p>All three areas. <strong>No slippage.</strong></p>
+      </div>
+      <div class="glass-card stat-card glow-orange anim-in">
+        <div class="icon-container icon-orange">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+        </div>
+        <h3>Demand Locked</h3>
+        <p><strong>On time.</strong> No last-minute scramble.</p>
+      </div>
+      <div class="glass-card stat-card glow-green anim-in">
+        <div class="icon-container icon-green">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+        </div>
+        <h3>Directors Booked</h3>
+        <p>All meetings <strong>in the diary.</strong> Storyboarding underway.</p>
+      </div>
+      <div class="glass-card stat-card glow-blue anim-in">
+        <div class="icon-container icon-purple">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg>
+        </div>
+        <h3>Benefits &mdash; Turning the Dial</h3>
+        <p><strong>Home &amp; CG</strong> building foundations. Starting to see traction.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 8 — BETTER INSIGHT & DECISIONS
+     ═══════════════════════════════════════════ -->
+<div class="slide" data-slide="8">
+  <div class="slide-bg" style="background-image:url('hero-slide8.png')"></div>
+  <div class="slide-content">
+    <div class="anim-in slide-title">Better <span class="accent-blue">Insight</span> &amp; Decisions</div>
+    <div class="anim-in slide-subtitle">Beyond the day job &mdash; raising the bar.</div>
+    <div class="stat-grid">
+      <div class="glass-card stat-card stat-banner banner-blue anim-in">
+        <div class="icon-container icon-blue" style="margin-bottom:0;">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+        </div>
+        <div>
+          <h3>Automating effort. Consolidating insight. Simplifying forums.</h3>
+        </div>
+      </div>
+      <div class="glass-card stat-card glow-blue anim-in">
+        <div class="icon-container icon-blue">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+        </div>
+        <h3>Consolidated View</h3>
+        <p><strong>All Scots areas in one view</strong> &mdash; direct to Consumer Channel leadership.</p>
+      </div>
+      <div class="glass-card stat-card glow-orange anim-in">
+        <div class="icon-container icon-orange">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m-2.6 17.93-.26-1.477m2.605-14.772-.26-1.477M3.06 14.564l1.41.513m14.095 5.13 1.41.513"/></svg>
+        </div>
+        <h3>Daily Run Rates</h3>
+        <p><strong>Fully automated.</strong> Manual effort eliminated.</p>
+      </div>
+      <div class="glass-card stat-card glow-green anim-in">
+        <div class="icon-container icon-green">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        </div>
+        <h3>Bereavement Contact Rates</h3>
+        <p><strong>Fully automated.</strong> Consistent and reliable.</p>
+      </div>
+      <div class="glass-card stat-card glow-blue anim-in">
+        <div class="icon-container icon-purple">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg>
+        </div>
+        <h3>Benefits Tracking</h3>
+        <p><strong>80% on Blueprint.</strong></p>
+      </div>
+      <div class="glass-card stat-card glow-orange anim-in">
+        <div class="icon-container icon-gold">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605"/></svg>
+        </div>
+        <h3>Steering Reimagined</h3>
+        <p><strong>Chart-led. Simplified.</strong> Less noise, better decisions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const progressBar = document.getElementById('progressBar');
+  const slideCounter = document.getElementById('slideCounter');
+  const totalSlides = slides.length;
+  let currentSlide = 1;
+
+  function goToSlide(n) {
+    if (n < 1 || n > totalSlides) return;
+    slides.forEach(s => s.classList.remove('active'));
+    currentSlide = n;
+    const target = document.querySelector('[data-slide="' + n + '"]');
+
+    // Reset animations
+    const allAnims = target.querySelectorAll('.anim-in');
+    allAnims.forEach(function(el) {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+
+    const bars = target.querySelectorAll('.pipeline-bar');
+    bars.forEach(function(bar) {
+      bar.style.animation = 'none';
+      bar.offsetHeight;
+      bar.style.animation = '';
+    });
+
+    const divider = target.querySelector('.title-divider');
+    if (divider) {
+      divider.style.animation = 'none';
+      divider.offsetHeight;
+      divider.style.animation = '';
+    }
+
+    target.classList.add('active');
+    progressBar.style.width = ((n) / totalSlides * 100) + '%';
+    slideCounter.innerHTML = '<span class="current">' + String(n).padStart(2, '0') + '</span> / ' + String(totalSlides).padStart(2, '0');
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'ArrowDown') {
+      e.preventDefault();
+      goToSlide(currentSlide + 1);
+    } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
+      e.preventDefault();
+      goToSlide(currentSlide - 1);
+    } else if (e.code === 'Home') {
+      e.preventDefault();
+      goToSlide(1);
+    } else if (e.code === 'End') {
+      e.preventDefault();
+      goToSlide(totalSlides);
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.clientX < window.innerWidth / 3) {
+      goToSlide(currentSlide - 1);
+    } else {
+      goToSlide(currentSlide + 1);
+    }
+  });
+
+  goToSlide(1);
+})();
+</script>
+</body>
+</html>
