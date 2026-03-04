@@ -162,7 +162,7 @@ const q2fItems: ListItem[] = [
   { index: '01', title: 'Timelines Done', desc: 'All three areas locked. No slippage.' },
   { index: '02', title: 'Demand Locked', desc: 'Submitted on time. No last-minute scramble.' },
   { index: '03', title: 'Directors Booked', desc: 'Meetings in the diary. Storyboarding underway.' },
-  { index: '04', title: 'Benefits Foundations', desc: 'Home and CG in place. Starting to see traction.' },
+  { index: '04', title: 'Benefits Foundations', desc: 'Home Customer Services and Consumer Growth in place. Starting to see traction.' },
 ];
 
 const insightItems: ListItem[] = [
@@ -511,7 +511,7 @@ export default function Presentation() {
           <Reveal active={slide === 7} delay={280} className="mt-8">
             <div className="border-y border-white/[0.06] py-6">
               <p className="font-display text-sm tracking-wide text-white/55 md:text-base">
-                CG, HCS and Personal Banking all on track. Real collective effort across the team.
+                Consumer Growth, Home Customer Services and Personal Banking all on track. Real collective effort across the team.
               </p>
             </div>
           </Reveal>
