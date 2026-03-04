@@ -151,40 +151,34 @@ function RoadmapLine({
 
 const whyItems: ListItem[] = [
   { index: '01', title: 'Better Requirements', desc: 'Right first time. Less rework.' },
-  { index: '02', title: 'Structured Testing', desc: 'Every release tested before it reaches you.' },
-  { index: '03', title: 'Change Forum', desc: 'Prioritise enhancements. Right work gets done.' },
+  { index: '02', title: 'Structured Testing', desc: 'Every release tested before it ships.' },
+  { index: '03', title: 'Change Forum', desc: 'Prioritised enhancements. Right work gets done.' },
   { index: '04', title: 'More Prototypes', desc: 'Touch and feel before we build.' },
   { index: '05', title: 'Test Rig', desc: 'Test it yourselves. Real data, your terms.' },
 ];
 
-const deliveryItems: ListItem[] = [
-  { index: '01', title: '2x Paired Working', desc: 'Lead + Second on every initiative. No single point of failure.' },
-  { index: '02', title: '1 Kanban Board', desc: 'Single source of truth. All work visible to everyone.' },
-  { index: '03', title: '30d Warranty Period', desc: 'Post-deployment support. Issues take priority.' },
-  { index: '04', title: '10 Point Definition of Done', desc: 'Point checklist. Nothing ships without it.' },
-];
 
 const q2fItems: ListItem[] = [
-  { index: '01', title: 'Timelines Done', desc: 'All three areas. No slippage.' },
-  { index: '02', title: 'Demand Locked', desc: 'On time. No last-minute scramble.' },
-  { index: '03', title: 'Directors Booked', desc: 'All meetings in the diary. Storyboarding underway.' },
-  { index: '04', title: 'Benefits - Turning the Dial', desc: 'Home and CG building foundations. Starting to see traction.' },
+  { index: '01', title: 'Timelines Done', desc: 'All three areas locked. No slippage.' },
+  { index: '02', title: 'Demand Locked', desc: 'Submitted on time. No last-minute scramble.' },
+  { index: '03', title: 'Directors Booked', desc: 'Meetings in the diary. Storyboarding underway.' },
+  { index: '04', title: 'Benefits Foundations', desc: 'Home and CG in place. Starting to see traction.' },
 ];
 
 const insightItems: ListItem[] = [
-  { index: '01', title: 'Consolidated View', desc: 'All Scots areas in one view - direct to Consumer Channel leadership.' },
-  { index: '02', title: 'Daily Run Rates', desc: 'Fully automated. Manual effort eliminated.' },
-  { index: '03', title: 'Bereavement Contact Rates', desc: 'Fully automated. Consistent and reliable.' },
-  { index: '04', title: 'Benefits Tracking', desc: '80% on Blueprint.' },
-  { index: '05', title: 'Steering Reimagined', desc: 'Chart-led. Simplified. Less noise, better decisions.' },
+  { index: '01', title: 'Consolidated View', desc: 'All Scots areas in one view — direct to Consumer Channel leadership.' },
+  { index: '02', title: 'Daily Run Rates', desc: 'Fully automated. No manual effort.' },
+  { index: '03', title: 'Bereavement Contact Rates', desc: 'Automated end-to-end. Consistent and reliable.' },
+  { index: '04', title: 'Benefits Tracking', desc: '80% now tracked through Blueprint.' },
+  { index: '05', title: 'Steering Reimagined', desc: 'Chart-led. Less noise, better decisions.' },
 ];
 
 const roadmapRows: RoadmapItem[] = [
-  { title: 'Short-Term Outlooks', sub: 'All 4 areas actively testing', tags: ['Mark', 'John', 'Ian'], left: '0%', width: '68%', label: 'In Testing', color: '#8A7A6B' },
+  { title: 'Intra-Month Shapes', sub: 'ML model — testing and live', tags: ['Mark', 'ML'], left: '50%', width: '45%', label: 'Testing / Live', color: '#8A7A6B' },
   { title: 'Fraud GUI', sub: 'Target: live end Q1', tags: ['Ian (Lead)', 'John (2nd)'], left: '0%', width: '42%', label: 'In Build', color: '#4A7FA5' },
-  { title: 'Strategic Supply', sub: 'Workshop -> requirements -> build', tags: ['Chris (Lead)', 'Simon (2nd)'], left: '0%', width: '35%', label: 'Discovery -> Build', color: '#7A8BA8' },
-  { title: 'Complaints Allocation', sub: 'Legacy tech replaced', tags: ['Simon (Lead)'], left: '0%', width: '92%', label: 'Live - Warranty', color: '#5A8A6F' },
-  { title: 'Intra-Month Shapes', sub: 'ML - testing and live', tags: ['Mark', 'ML'], left: '50%', width: '45%', label: 'Testing / Live', color: '#8A7A6B' },
+  { title: 'Strategic Supply', sub: 'Workshop → requirements → build', tags: ['Chris (Lead)', 'Simon (2nd)'], left: '0%', width: '35%', label: 'Discovery → Build', color: '#7A8BA8' },
+  { title: 'Complaints Allocation', sub: 'Legacy tech replaced', tags: ['Simon (Lead)'], left: '0%', width: '92%', label: 'Live — Warranty', color: '#5A8A6F' },
+  { title: 'Short-Term Outlooks', sub: 'All 4 areas actively testing', tags: ['Mark', 'John', 'Ian'], left: '0%', width: '68%', label: 'In Testing', color: '#8A7A6B' },
 ];
 
 /* ── Two font classes only ──
@@ -252,12 +246,10 @@ export default function Presentation() {
         style={{ width: `${(slide / TOTAL) * 100}%` }}
       />
 
-      {/* Nav - top right only, like the reference */}
-      <nav className="fixed right-8 top-7 z-40 hidden gap-8 font-sans text-[11px] tracking-[0.18em] text-white/30 md:flex md:right-12">
-        <span className="text-white/70">Index</span>
-        <span>About</span>
-        <span>Work</span>
-      </nav>
+      {/* Slide label - top right */}
+      <div className="fixed right-8 top-7 z-40 hidden font-sans text-[11px] tracking-[0.18em] text-white/25 md:block md:right-12">
+        Scot Team Call
+      </div>
 
       {/* Slide counter - bottom right */}
       <div className="fixed bottom-7 right-8 z-50 font-sans text-sm tracking-[0.15em] text-white/20 md:right-12">
@@ -271,7 +263,7 @@ export default function Presentation() {
       {/* Side label */}
       <div className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 bg-white/[0.04] px-2.5 py-5 md:block">
         <span className="font-sans text-[10px] font-medium uppercase tracking-[0.18em] text-white/25 [writing-mode:vertical-rl]">
-          Team Call - March 2026
+          March 2026
         </span>
       </div>
 
@@ -280,7 +272,7 @@ export default function Presentation() {
         <div className="grid h-full w-full grid-cols-1 gap-0 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="z-10 flex flex-col justify-center px-8 pb-24 pt-28 md:px-16">
             <Reveal active={slide === 1} delay={0}>
-              <p className={label}>Q1 2026 Update</p>
+              <p className={label}>March 2026</p>
             </Reveal>
 
             <Reveal active={slide === 1} delay={120} className="mt-8">
@@ -307,15 +299,8 @@ export default function Presentation() {
 
             <Reveal active={slide === 1} delay={500} className="mt-6 max-w-md">
               <p className="font-display text-lg font-light tracking-wide text-white/60 md:text-xl">
-                Driving Clarity. Powering Decisions.
-              </p>
-              <p className={`${body} mt-3`}>
                 Better planning. Better tools. Better insight.
               </p>
-            </Reveal>
-
-            <Reveal active={slide === 1} delay={580} className="mt-12">
-              <p className={label}>March 2026</p>
             </Reveal>
           </div>
 
@@ -339,15 +324,14 @@ export default function Presentation() {
             </h2>
           </Reveal>
           <Reveal active={slide === 2} delay={200} className="mt-5">
-            <p className={body}>Not future promises - already in action.</p>
+            <p className={body}>Not future promises — every point below is live right now.</p>
           </Reveal>
 
           <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[0.7fr_1.3fr]">
             <Reveal active={slide === 2} delay={260}>
               <div className="h-px w-full bg-white/[0.06]" />
               <p className={`${body} mt-5 max-w-sm`}>
-                Changing how we work, not just what we build. Every point below
-                is live and in flight right now.
+                Changing how we work, not just what we build.
               </p>
               <div className="mt-5 h-px w-full bg-white/[0.06]" />
             </Reveal>
@@ -385,11 +369,11 @@ export default function Presentation() {
           <Reveal active={slide === 3} delay={260} className="mt-10">
             <div className="grid grid-cols-2 gap-8 border-y border-white/[0.06] py-7 md:grid-cols-4">
               {[
-                ['2x', 'Paired Working'],
-                ['1', 'Kanban Board'],
-                ['30d', 'Warranty'],
-                ['10', 'Point DoD'],
-              ].map(([value, lbl]) => (
+                ['2x', 'Paired Working', 'Lead + second on every initiative. No single point of failure.'],
+                ['1', 'Kanban Board', 'Single source of truth. All work visible to everyone.'],
+                ['30d', 'Warranty', 'Post-deployment support. Issues take priority.'],
+                ['10pt', 'Definition of Done', 'Nothing ships without passing the checklist.'],
+              ].map(([value, lbl, desc]) => (
                 <div key={lbl} className="space-y-2">
                   <p className="font-sans text-4xl font-extralight tracking-wider text-white/75 md:text-5xl">
                     {value}
@@ -397,21 +381,13 @@ export default function Presentation() {
                   <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-white/25">
                     {lbl}
                   </p>
+                  <p className="font-sans text-[12px] tracking-wide text-white/35 mt-1">
+                    {desc}
+                  </p>
                 </div>
               ))}
             </div>
           </Reveal>
-
-          <div className="mt-3">
-            {deliveryItems.map((item, idx) => (
-              <ListLine
-                key={item.index}
-                active={slide === 3}
-                delay={340 + idx * 80}
-                {...item}
-              />
-            ))}
-          </div>
         </div>
       </Slide>
 
@@ -471,12 +447,8 @@ export default function Presentation() {
             </Reveal>
             <Reveal active={slide === 5} delay={220} className="mt-6">
               <p className={body}>
-                All four areas actively testing the new web-based interface
-                right now.
-              </p>
-              <p className={`${body} mt-3`}>
-                Where better requirements, structured testing, and the test rig
-                all come together.
+                All four areas actively testing the new web-based interface.
+                Better requirements, structured testing, and the test rig — all coming together here.
               </p>
             </Reveal>
             <Reveal active={slide === 5} delay={300} className="mt-8">
@@ -518,7 +490,7 @@ export default function Presentation() {
           <Reveal active={slide === 6} delay={300} className="mx-auto mt-12 max-w-md">
             <div className="mx-auto h-px w-20 bg-white/10" />
             <p className="mt-6 font-display text-lg font-light tracking-wide text-white/45 md:text-xl">
-              Delivering the Forecast. Raising the Bar.
+              Forecast delivery. Insight. Decisions.
             </p>
           </Reveal>
         </div>
@@ -541,12 +513,9 @@ export default function Presentation() {
             </p>
           </Reveal>
           <Reveal active={slide === 7} delay={280} className="mt-8">
-            <div className="grid grid-cols-1 gap-6 border-y border-white/[0.06] py-6 md:grid-cols-2">
+            <div className="border-y border-white/[0.06] py-6">
               <p className="font-display text-sm tracking-wide text-white/55 md:text-base">
-                CG, HCS and Personal Banking on track.
-              </p>
-              <p className="font-display text-sm tracking-wide text-white/35 md:text-base">
-                Demand locked down on time. Real collective effort.
+                CG, HCS and Personal Banking all on track. Real collective effort across the team.
               </p>
             </div>
           </Reveal>
@@ -568,22 +537,15 @@ export default function Presentation() {
       <Slide active={slide === 8}>
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 8} delay={0}>
-            <p className={label}>Beyond the Day Job</p>
+            <p className={label}>Insight & Decision-Making</p>
           </Reveal>
           <Reveal active={slide === 8} delay={100} className="mt-6">
             <h2 className={subheading}>
-              Better Insight<br />and Decisions
+              Better Insight<br />Better Decisions
             </h2>
           </Reveal>
           <Reveal active={slide === 8} delay={200} className="mt-5">
-            <p className={body}>Beyond the day job - raising the bar.</p>
-          </Reveal>
-          <Reveal active={slide === 8} delay={280} className="mt-8">
-            <div className="border-y border-white/[0.06] py-6">
-              <p className="font-display text-sm tracking-wide text-white/50 md:text-base">
-                Automating effort. Consolidating insight. Simplifying forums.
-              </p>
-            </div>
+            <p className={body}>Automating effort. Consolidating views. Simplifying forums.</p>
           </Reveal>
 
           <div className="mt-3">
