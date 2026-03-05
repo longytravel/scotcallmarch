@@ -14,7 +14,7 @@ const SplineScene = dynamic(
 
 const ROBOT_SCENE_URL =
   'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode';
-const TOTAL = 8;
+const TOTAL = 9;
 
 type ListItem = {
   title: string;
@@ -447,6 +447,7 @@ export default function Presentation() {
               <p className={body}>
                 All four areas actively testing the new web-based interface.
                 Better requirements, structured testing, and the test rig — all coming together here.
+                Working with the platform team towards a 23 March deployment — from our side, we&apos;ll be ready.
               </p>
             </Reveal>
             <Reveal active={slide === 5} delay={300} className="mt-8">
@@ -556,6 +557,34 @@ export default function Presentation() {
               />
             ))}
           </div>
+        </div>
+      </Slide>
+
+      {/* ─── SLIDE 9: Close ─── */}
+      <Slide active={slide === 9}>
+        <div className="w-full max-w-4xl text-center">
+          <Reveal active={slide === 9} delay={0}>
+            <p className={label}>Closing</p>
+          </Reveal>
+
+          <Reveal active={slide === 9} delay={150} className="mt-8">
+            <h2 className={subheading}>
+              Good Progress
+            </h2>
+          </Reveal>
+
+          <Reveal active={slide === 9} delay={300} className="mt-2">
+            <h2 className={`${subheading} text-white/30`}>
+              More To Do
+            </h2>
+          </Reveal>
+
+          <Reveal active={slide === 9} delay={500} className="mx-auto mt-12 max-w-lg">
+            <div className="mx-auto h-px w-20 bg-white/10" />
+            <p className="mt-8 font-display text-base font-light leading-relaxed tracking-wide text-white/45 md:text-lg">
+              We&apos;re getting there. Still a lot ahead, but the foundations are solid and the momentum is real. Thanks for your patience and support while we work through it.
+            </p>
+          </Reveal>
         </div>
       </Slide>
     </main>
