@@ -114,20 +114,20 @@ function RoadmapLine({
 }) {
   return (
     <Reveal active={active} delay={delay}>
-      <div className="grid grid-cols-1 gap-4 border-b border-white/[0.06] py-4 md:grid-cols-[240px_1fr]">
-        <div className="space-y-1.5">
-          <h4 className="font-sans text-sm font-medium tracking-wide text-white/85">
+      <div className="grid grid-cols-1 gap-3 border-b border-white/[0.06] py-3 md:grid-cols-[200px_1fr]">
+        <div className="space-y-0.5">
+          <h4 className="font-sans text-[13px] font-medium tracking-wide text-white/85">
             {row.title}
           </h4>
-          <p className="font-sans text-[13px] tracking-wide text-white/40">
+          <p className="font-sans text-[12px] tracking-wide text-white/40">
             {row.sub}
           </p>
-          <p className="font-sans text-[11px] tracking-wider text-white/20">
+          <p className="font-sans text-[10px] tracking-wider text-white/20">
             {row.tags.join(' / ')}
           </p>
         </div>
 
-        <div className="relative h-8 overflow-hidden rounded bg-white/[0.03]">
+        <div className="relative h-7 overflow-hidden rounded bg-white/[0.03]">
           <div className="absolute inset-y-0 left-1/4 w-px bg-white/[0.06]" />
           <div className="absolute inset-y-0 left-1/2 w-px bg-white/[0.06]" />
           <div className="absolute inset-y-0 left-3/4 w-px bg-white/[0.06]" />
@@ -167,18 +167,20 @@ const q2fItems: ListItem[] = [
 
 const insightItems: ListItem[] = [
   { index: '01', title: 'Consolidated View', desc: 'All Scots areas in one view — direct to Consumer Channel leadership.' },
-  { index: '02', title: 'Daily Run Rates', desc: 'Fully automated. No manual effort.' },
+  { index: '02', title: 'Daily Run Rates', desc: 'Power BI driven. More flexible, more impactful — richer insight at a glance.' },
   { index: '03', title: 'Bereavement Contact Rates', desc: 'Automated end-to-end. Consistent and reliable.' },
   { index: '04', title: 'Benefits Tracking', desc: '95% now tracked through Blueprint.' },
   { index: '05', title: 'Steering Reimagined', desc: 'Chart-led. Less noise, better decisions.' },
 ];
 
 const roadmapRows: RoadmapItem[] = [
-  { title: 'Intra-Month Shapes', sub: 'ML model — testing and live', tags: ['Mark', 'ML'], left: '50%', width: '45%', label: 'Testing / Live', color: '#8A7A6B' },
+  { title: 'PB Excel Models Retired', sub: 'Legacy spreadsheets replaced and decommissioned', tags: ['Tom'], left: '0%', width: '100%', label: 'Live', color: '#5A8A6F' },
+  { title: 'Intra-Month Shapes', sub: 'ML model — testing and live', tags: ['Mark', 'Ian'], left: '50%', width: '45%', label: 'Testing / Live', color: '#8A7A6B' },
   { title: 'Fraud GUI', sub: 'Target: live end Q1', tags: ['Ian (Lead)', 'John (2nd)'], left: '0%', width: '42%', label: 'In Build', color: '#4A7FA5' },
-  { title: 'Strategic Supply', sub: 'Workshop → requirements → build', tags: ['Chris (Lead)', 'Simon (2nd)'], left: '0%', width: '35%', label: 'Discovery → Build', color: '#7A8BA8' },
+  { title: 'Strategic & Costed Supply', sub: 'Workshop → requirements → build', tags: ['Chris (Lead)', 'Simon (2nd)'], left: '0%', width: '35%', label: 'Discovery → Build', color: '#7A8BA8' },
   { title: 'Complaints Allocation', sub: 'Legacy tech replaced', tags: ['Simon (Lead)'], left: '0%', width: '92%', label: 'Live — Warranty', color: '#5A8A6F' },
   { title: 'Short-Term Outlooks', sub: 'All 4 areas actively testing', tags: ['Mark', 'John', 'Ian'], left: '0%', width: '68%', label: 'In Testing', color: '#8A7A6B' },
+  { title: 'Power BI Consolidation', sub: 'Revamp and simplify existing reports', tags: ['Tom'], left: '50%', width: '50%', label: 'Testing / Live', color: '#8A7A6B' },
 ];
 
 /* ── Two font classes only ──
@@ -312,7 +314,7 @@ export default function Presentation() {
       <Slide active={slide === 2}>
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 2} delay={0}>
-            <p className={label}>Blueprint Delivery Standard</p>
+            <p className={label}><span className="text-sky-400/50">Blueprint</span> Delivery Standard</p>
           </Reveal>
           <Reveal active={slide === 2} delay={100} className="mt-6">
             <h2 className={subheading}>
@@ -349,7 +351,7 @@ export default function Presentation() {
       <Slide active={slide === 3}>
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 3} delay={0}>
-            <p className={label}>Delivery Operating Model</p>
+            <p className={label}><span className="text-sky-400/50">Blueprint</span> Operating Model</p>
           </Reveal>
           <Reveal active={slide === 3} delay={100} className="mt-6">
             <h2 className={subheading}>
@@ -388,22 +390,22 @@ export default function Presentation() {
       </Slide>
 
       {/* ─── SLIDE 4: Q1 Roadmap ─── */}
-      <Slide active={slide === 4}>
+      <Slide active={slide === 4} className="!py-10 !pt-14">
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 4} delay={0}>
-            <p className={label}>Current Positioning by Initiative</p>
+            <p className={label}><span className="text-sky-400/50">Blueprint</span> Positioning by Initiative</p>
           </Reveal>
-          <Reveal active={slide === 4} delay={100} className="mt-6">
-            <h2 className={subheading}>
-              Q1 2026<br />Roadmap
+          <Reveal active={slide === 4} delay={100} className="mt-4">
+            <h2 className="font-sans text-3xl font-extralight uppercase leading-[0.92] tracking-[0.08em] md:text-5xl lg:text-6xl">
+              Q1 2026 Roadmap
             </h2>
           </Reveal>
-          <Reveal active={slide === 4} delay={200} className="mt-5">
+          <Reveal active={slide === 4} delay={200} className="mt-3">
             <p className={body}>Where every initiative stands right now.</p>
           </Reveal>
 
-          <Reveal active={slide === 4} delay={260} className="mt-10">
-            <div className="hidden grid-cols-[240px_repeat(4,1fr)] border-b border-white/[0.06] pb-3 md:grid">
+          <Reveal active={slide === 4} delay={260} className="mt-6">
+            <div className="hidden grid-cols-[200px_repeat(4,1fr)] border-b border-white/[0.06] pb-2 md:grid">
               <span />
               {['Discovery', 'Build', 'Test', 'Live'].map((name) => (
                 <span
@@ -416,12 +418,12 @@ export default function Presentation() {
             </div>
           </Reveal>
 
-          <div className="mt-1">
+          <div className="mt-0.5">
             {roadmapRows.map((row, idx) => (
               <RoadmapLine
                 key={row.title}
                 active={slide === 4}
-                delay={320 + idx * 80}
+                delay={320 + idx * 60}
                 row={row}
               />
             ))}
@@ -434,7 +436,7 @@ export default function Presentation() {
         <div className="grid w-full max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div>
             <Reveal active={slide === 5} delay={0}>
-              <p className={label}>Flagship Delivery</p>
+              <p className={label}><span className="text-sky-400/50">Blueprint</span> Flagship Delivery</p>
             </Reveal>
             <Reveal active={slide === 5} delay={110} className="mt-6">
               <h2 className={subheading}>
@@ -480,11 +482,11 @@ export default function Presentation() {
           </Reveal>
           <Reveal active={slide === 6} delay={140} className="mt-8">
             <h2 className={heading}>
-              Strategic<br />Planning
+              <span className="text-red-400">Strategic</span><br />Planning
             </h2>
           </Reveal>
           <Reveal active={slide === 6} delay={300} className="mx-auto mt-12 max-w-md">
-            <div className="mx-auto h-px w-20 bg-white/10" />
+            <div className="mx-auto h-px w-20 bg-red-400/25" />
             <p className="mt-6 font-display text-lg font-light tracking-wide text-white/45 md:text-xl">
               Forecast delivery. Insight. Decisions.
             </p>
@@ -496,7 +498,7 @@ export default function Presentation() {
       <Slide active={slide === 7}>
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 7} delay={0}>
-            <p className={label}>Forecast Delivery at Scale</p>
+            <p className={label}><span className="text-red-400/50">Strategic</span> Forecast Delivery</p>
           </Reveal>
           <Reveal active={slide === 7} delay={100} className="mt-6">
             <h2 className={subheading}>
@@ -533,7 +535,7 @@ export default function Presentation() {
       <Slide active={slide === 8}>
         <div className="w-full max-w-6xl">
           <Reveal active={slide === 8} delay={0}>
-            <p className={label}>Insight & Decision-Making</p>
+            <p className={label}><span className="text-red-400/50">Strategic</span> Insight & Decisions</p>
           </Reveal>
           <Reveal active={slide === 8} delay={100} className="mt-6">
             <h2 className={subheading}>
